@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>AlexRhino - I Like Elk</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css"/>
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab|Ruda"/>
+        <link rel="stylesheet" type="text/css" href="/theme/css/main.css"/>
+
+<meta name="tags" content="devops" />
+</head>
+<body>
+<style>.github-corner:hover .octo-arm {
+    animation: octocat-wave 560ms ease-in-out
+}
+@keyframes octocat-wave {
+    0%, 100% {
+        transform: rotate(0)
+    }
+    20%, 60% {
+        transform: rotate(-25deg)
+    }
+    40%, 80% {
+        transform: rotate(10deg)
+    }
+}
+@media (max-width: 500px) {
+    .github-corner:hover .octo-arm {
+        animation: none
+    }
+
+    .github-corner .octo-arm {
+        animation: octocat-wave 560ms ease-in-out
+    }
+}</style><div id="container">
+    <header>
+        <h1><a href="/">AlexRhino</a></h1>
+            <ul class="social-media">
+                    <li><a href="#"><i class="fa fa-You can add links in your config file fa-lg" aria-hidden="true"></i></a></li>
+                    <li><a href="#"><i class="fa fa-Another social link fa-lg" aria-hidden="true"></i></a></li>
+            </ul>
+        <p><em></em></p>
+    </header>
+    <nav>
+        <ul>
+                    <li><a href="/category/devops.html"> devops </a></li>
+                    <li><a                         class="active" href="/category/post.html"> post </a></li>
+                    <li><a href="/pages/My favorite line.html">About Me</a>
+                    </li>
+        </ul>
+    </nav>
+<main>
+    <article>
+        <h2>I Like Elk</h2>
+        
+        <aside>
+            <ul>
+                <li>
+                    <time datetime="2018-02-01 09:37:54+00:00">Feb 01, 2018</time>
+                </li>
+                <li>
+                    <time datetime="2018-02-01 09:37:54+00:00">Modified
+                        on Feb 01, 2018</time>
+                </li>
+                <li>2 min read</li>
+                <li>
+                    Categories:
+                    <a href="/category/post.html"><em>post</em></a>
+                </li>
+                <li>
+                    Tags:
+                    <a href="/tag/devops.html"><em>#devops</em></a>
+                </li>
+            </ul>
+        </aside>
+        <p>Really?</p>
+<p><strong>ELK5 to ELK6</strong></p>
+<ol class="arabic simple">
+<li>Problem.</li>
+</ol>
+<pre><code>
+[2018-02-01T08:43:58,402][WARN ][logstash.outputs.elasticsearch] Failed action. {:status=>400, :action=>["index", {:_id=>nil, :_index=>"logstash-dev-fra-2018.02.01", :_type=>"logs", :_routing=>nil}, 2018-02-01T08:44:56.597Z logstash-ds-lnmxj {"log":"100.96.2.1 - - [01/Feb/2018:08:44:56 +0000] \"GET /sample HTTP/1.1\" 200 1217 \"-\" \"Go-http-client/1.1\"\n","stream":"stdout","time":"2018-02-01T08:44:56.219765589Z"}], :response=>{"index"=>{"_index"=>"logstash-dev-fra-2018.02.01", "_type"=>"logs", "_id"=>"lc2KUGEBxXVidspFTmFH", "status"=>400, "error"=>{"type"=>"illegal_argument_exception", "reason"=>"Rejecting mapping update to [logstash-dev-fra-2018.02.01] as the final mapping would have more than 1 type: [myproject, logs]"}}}}
+[2018-02-01T08:43:59,407][WARN ][logstash.outputs.elasticsearch] Failed action. {:status=>400, :action=>["index", {:_id=>nil, :_index=>"logstash-dev-fra-2018.02.01", :_type=>"logs", :_routing=>nil}, 2018-02-01T08:44:57.599Z logstash-ds-lnmxj {"log":"100.96.2.1 - - [01/Feb/2018:08:44:56 +0000] \"GET / HTTP/1.1\" 200 612 \"-\" \"Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)\"\n","stream":"stdout","time":"2018-02-01T08:44:56.926313771Z"}], :response=>{"index"=>{"_index"=>"logstash-dev-fra-2018.02.01", "_type"=>"logs", "_id"=>"iPqKUGEBLGRvIgHHUso1", "status"=>400, "error"=>{"type"=>"illegal_argument_exception", "reason"=>"Rejecting mapping update to [logstash-dev-fra-2018.02.01] as the final mapping would have more than 1 type: [myproject, logs]"}}}}
+</code></pre><ol class="arabic simple">
+<li>Cause. <a class="reference external" href="https://www.elastic.co/guide/en/elasticsearch/reference/6.0/removal-of-types.html">elk6.0 remove mapping
+types</a></li>
+<li>Solution</li>
+</ol>
+<pre><code>
+input {
+
+    redis {
+        host => "myredis.alexrhino.net"
+        port => 6379
+        data_type => "list"
+        key => "alexrhino"
+        codec => "json"
+    }
+
+}
+
++filter {
++    mutate {
++      remove_field => ["type" ]
++    }
++}
+
+output {
+
+    elasticsearch {
+        hosts => "http://myelk.alexrhino.net:80"
+        index => "logstash-dev-fra-%{+YYYY.MM.dd}"
+    }
+
+}
+</code></pre><ol class="arabic simple">
+<li>You also have to reindex your existing index, to remove type. And
+remove old index. <a class="reference external" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/removal-of-types.html#_migrating_multi_type_indices_to_single_type">Multi type to single
+type</a></li>
+</ol>
+<pre><code>
+POST _reindex
+{
+  "source": {
+    "index": "logstash-dev-fra-2018.02.01"
+  },
+  "dest": {
+    "index": "logstash-dev-fra-2018.02.01-reindexed"
+  },
+  "script": {
+    "inline": """
+    ctx._id = ctx._type + "-" + ctx._id;
+    ctx._source.type = ctx._type;
+    ctx._type = "doc";
+"""
+  }
+}
+</code></pre><p>curl -XDELETE
+'<a class="reference external" href="http://www.alexrhino.net/logstash-dev-fra-2018.02.01">http://www.alexrhino.net/logstash-dev-fra-2018.02.01</a>'</p>
+
+    </article>
+    <section class="post-nav">
+        <div id="left-page">
+            <div id="left-link">
+                <div id="left-arrow"><i class="fa fa-chevron-circle-left"></i></div>
+                <a href="/I-Like-Php.html"> I Like Php</a>
+            </div>
+        </div>
+        <div id="right-page">
+            <div id="right-link">
+                <a href="/I-Like-Mysql.html">I Like Mysql </a>
+                <div id="right-arrow"><i class="fa fa-chevron-circle-right"></i></div>
+            </div>
+        </div>
+    </section>
+    <div>
+    </div>
+</main>
+    <footer>
+        <h6>
+            Copyright &copy 2018
+- Alex Rhino | Rendered by <a href="http://getpelican.com/">Pelican</a> |
+            Powered by <a href="http://python.org">Python</a>
+        </h6>
+    </footer>
+</div>
+</body>
+</html>

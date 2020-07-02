@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>AlexRhino - Vagrant Destory</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css"/>
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab|Ruda"/>
+        <link rel="stylesheet" type="text/css" href="/theme/css/main.css"/>
+
+<meta name="tags" content="Devops" />
+</head>
+<body>
+<style>.github-corner:hover .octo-arm {
+    animation: octocat-wave 560ms ease-in-out
+}
+@keyframes octocat-wave {
+    0%, 100% {
+        transform: rotate(0)
+    }
+    20%, 60% {
+        transform: rotate(-25deg)
+    }
+    40%, 80% {
+        transform: rotate(10deg)
+    }
+}
+@media (max-width: 500px) {
+    .github-corner:hover .octo-arm {
+        animation: none
+    }
+
+    .github-corner .octo-arm {
+        animation: octocat-wave 560ms ease-in-out
+    }
+}</style><div id="container">
+    <header>
+        <h1><a href="/">AlexRhino</a></h1>
+            <ul class="social-media">
+                    <li><a href="#"><i class="fa fa-You can add links in your config file fa-lg" aria-hidden="true"></i></a></li>
+                    <li><a href="#"><i class="fa fa-Another social link fa-lg" aria-hidden="true"></i></a></li>
+            </ul>
+        <p><em></em></p>
+    </header>
+    <nav>
+        <ul>
+                    <li><a href="/category/devops.html"> devops </a></li>
+                    <li><a                         class="active" href="/category/post.html"> post </a></li>
+                    <li><a href="/pages/My favorite line.html">About Me</a>
+                    </li>
+        </ul>
+    </nav>
+<main>
+    <article>
+        <h2>Vagrant Destory</h2>
+        
+        <aside>
+            <ul>
+                <li>
+                    <time datetime="2015-09-02 09:10:55+01:00">Sep 02, 2015</time>
+                </li>
+                <li>
+                    <time datetime="2015-09-02 09:10:55+01:00">Modified
+                        on Sep 02, 2015</time>
+                </li>
+                <li>2 min read</li>
+                <li>
+                    Categories:
+                    <a href="/category/post.html"><em>post</em></a>
+                </li>
+                <li>
+                    Tags:
+                    <a href="/tag/devops.html"><em>#Devops</em></a>
+                </li>
+            </ul>
+        </aside>
+        <p>Do not use vagrant command when you don't know what it really does.</p>
+<p>This is a sad story. I decided to change the default nat ip address of
+eth0 in vagrant box by add the following lines in vagrantfile:</p>
+<pre><code>
+  config.vm.box = "centos67"
+  config.ssh.port = 2221
+  config.ssh.guest_port = 22
+  config.ssh.username = "vagrant"
+  config.ssh.password = "vagrant"
+  config.vm.network "forwarded_port", guest: 22, host: 2221, guest_ip: "10.0.2.11", id:"ssh"
+  config.vm.network "forwarded_port", guest: 80, host: 8081, guest_ip: "10.0.2.11"
+</code></pre><p>but I forgot to change the ifcfg-eth0 first, so when I run &quot;vagrant up&quot;,
+eth0 still got the ip &quot;10.0.2.15&quot;, which means I can't ssh to this
+virtual machine.</p>
+<p>And then I tried to set the forwarded port in virtual box manager.
+Apparently vagrant has lock the setting, so it didn't work.</p>
+<p>Well, then I thought why not just halt it and fix the configure, that
+was how the tragedy started. Instead of vagrant halt, I used vagrant
+destroy, of which I thought would just act as a force power off. And you
+know the answer, it did not only stop the virtual machine, but also
+reverted it to the initial state, which means all those changes that I
+had made and all those software that I installed has disappear, and all
+those scripts to, fuck!</p>
+<p>However, that might be a good lesson too, I should never try a command
+without full understanding of it, and always backup my scripts, what's
+more important, use a configure management tool to control my vbox.</p>
+
+    </article>
+    <section class="post-nav">
+        <div id="left-page">
+            <div id="left-link">
+                <div id="left-arrow"><i class="fa fa-chevron-circle-left"></i></div>
+                <a href="/Vagrant-Private-Network.html"> Vagrant Private Network</a>
+            </div>
+        </div>
+        <div id="right-page">
+            <div id="right-link">
+                <a href="/Vagrant-Override-Default-SSH-Port.html">Vagrant Override Default SSH Port </a>
+                <div id="right-arrow"><i class="fa fa-chevron-circle-right"></i></div>
+            </div>
+        </div>
+    </section>
+    <div>
+    </div>
+</main>
+    <footer>
+        <h6>
+            Copyright &copy 2018
+- Alex Rhino | Rendered by <a href="http://getpelican.com/">Pelican</a> |
+            Powered by <a href="http://python.org">Python</a>
+        </h6>
+    </footer>
+</div>
+</body>
+</html>

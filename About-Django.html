@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>AlexRhino - About Django</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css"/>
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab|Ruda"/>
+        <link rel="stylesheet" type="text/css" href="/theme/css/main.css"/>
+
+<meta name="tags" content="ielts" />
+<meta name="tags" content="speaking" />
+<meta name="tags" content="vocabulary" />
+</head>
+<body>
+<style>.github-corner:hover .octo-arm {
+    animation: octocat-wave 560ms ease-in-out
+}
+@keyframes octocat-wave {
+    0%, 100% {
+        transform: rotate(0)
+    }
+    20%, 60% {
+        transform: rotate(-25deg)
+    }
+    40%, 80% {
+        transform: rotate(10deg)
+    }
+}
+@media (max-width: 500px) {
+    .github-corner:hover .octo-arm {
+        animation: none
+    }
+
+    .github-corner .octo-arm {
+        animation: octocat-wave 560ms ease-in-out
+    }
+}</style><div id="container">
+    <header>
+        <h1><a href="/">AlexRhino</a></h1>
+            <ul class="social-media">
+                    <li><a href="#"><i class="fa fa-You can add links in your config file fa-lg" aria-hidden="true"></i></a></li>
+                    <li><a href="#"><i class="fa fa-Another social link fa-lg" aria-hidden="true"></i></a></li>
+            </ul>
+        <p><em></em></p>
+    </header>
+    <nav>
+        <ul>
+                    <li><a href="/category/devops.html"> devops </a></li>
+                    <li><a                         class="active" href="/category/post.html"> post </a></li>
+                    <li><a href="/pages/My favorite line.html">About Me</a>
+                    </li>
+        </ul>
+    </nav>
+<main>
+    <article>
+        <h2>About Django</h2>
+        
+        <aside>
+            <ul>
+                <li>
+                    <time datetime="2017-04-16 02:43:02+01:00">Apr 16, 2017</time>
+                </li>
+                <li>
+                    <time datetime="2017-04-16 02:43:02+01:00">Modified
+                        on Apr 16, 2017</time>
+                </li>
+                <li>4 min read</li>
+                <li>
+                    Categories:
+                    <a href="/category/post.html"><em>post</em></a>
+                </li>
+                <li>
+                    Tags:
+                    <a href="/tag/ielts.html"><em>#ielts</em></a>
+                    <a href="/tag/speaking.html"><em>#speaking</em></a>
+                    <a href="/tag/vocabulary.html"><em>#vocabulary</em></a>
+                </li>
+            </ul>
+        </aside>
+        <p>I played with python django framework years ago, not until I contrive to
+complete a pretty simple project which would be used in production did I
+find out I missed a lot of things before.</p>
+<p><strong>Problems</strong></p>
+<ol class="arabic simple">
+<li>Deployment of the project.</li>
+</ol>
+<ul class="simple">
+<li>Obviously uwsgi and wsgi both are the right choice. But what kind of
+permission should I give virtualenv, where should I mount the
+project, I have never thought of it before.</li>
+<li>I thought it right currently, add a new user with the same name of
+the project.</li>
+<li>Use this account to create virtualenv.</li>
+<li>Put virtualenv in /usr/local/venvs/projectname, with 664 permission</li>
+<li>Project root in /var/www/projectname/, with 664 permission</li>
+</ul>
+<ol class="arabic simple">
+<li>Setup a continuous development env, from dev box to git to jekins to
+prod.</li>
+</ol>
+<ul class="simple">
+<li>ulimit of the box</li>
+<li>sysconfig and other kinds of kernal parameters</li>
+</ul>
+<ol class="arabic simple">
+<li>I never wrote any unit tests before, I found it neccessary this time,
+and worry about the time.</li>
+<li>Benchmark, which is not so urgent this time, but maybe I should think
+about it.</li>
+<li>How to finish a project in a short time with less comprise in
+quality.</li>
+<li>How to organize project documentation, and explain to fellow
+colleagues.</li>
+<li>What to do if the migration fails.</li>
+<li>If I know nothing about python development or django, how should I
+work as an ops to really move the project on, I see no hope. I guess
+that's part of the reason most ops suck at their jobs.</li>
+<li>What to do to acheive backward comptiability when old project sucks.</li>
+</ol>
+<p><strong>Achievement</strong></p>
+<ol class="arabic simple">
+<li>Just a couple of month ago I just use django admin as sqladmin, to
+store some data and retrieve them.</li>
+<li>I use a python script to collect all the data and run it on where the
+django server is.</li>
+<li>Django rest open the interface, and no more local run is needed. This
+is a progress. Cheers.</li>
+</ol>
+<p><strong>Need</strong></p>
+<ol class="arabic simple">
+<li>We have hundreds of employees, people come and go, SA have to
+control their permission on production servers.</li>
+<li>We shouldn't give them permission at all, but you know, something is
+just out of control.</li>
+<li>We don't have a jumpbox or a bastion machine, which I think brings a
+lot of trouble and may drag down our efficiency.</li>
+<li>We should have got an audit system, though we don't have one now.</li>
+<li>Anyway, let's just ignore those details.</li>
+<li>Dev teams send us their public key through email, and we store them
+then add into the authorized_keys.</li>
+<li>We can paste these files in puppet or salt or ansible or any other
+control management system.</li>
+<li>We decide to store these keys in database and provede an api, and
+call it in our costumed scripts.</li>
+<li>If you have an ops team and , how to avoid this problem?</li>
+<li>We should provide an api to let the employees add their keys
+themselves, and validate the key in our system with just on click,
+or through one single command.</li>
+<li>Why not the old way, we add their keys ourself?</li>
+<li>If the key is not strong, we don't have to send another email to ask
+them for change.</li>
+<li>Thought the email validation, they help use validate their email.</li>
+<li>We can ask them to change the public keys if neccessary</li>
+</ol>
+<p><strong>Process</strong></p>
+<ol class="arabic simple">
+<li>A fellow staff ask to add his key, we check if he exists or not.</li>
+<li>If not we add his email to our databases, generate one token and send
+to his email, and the guidance. We should validate his email first to
+see if he is really a member of us.</li>
+<li>We can use oauth2 to do the validation.</li>
+<li>Then he have to change his password and login to add his key.</li>
+<li>Then this guy send us an email with the fingerprint of his public
+key.</li>
+<li>We validate key and active it on the backend.</li>
+</ol>
+<p><strong>Is it neccessary</strong></p>
+<ol class="arabic simple">
+<li>Not really. However, we distribute some troubles from one team to all
+members, and make the process standardized.</li>
+<li>We can use some scripts to automate public key check or do a ban or
+delete, revolved around this system.</li>
+<li>Any junior ops can use it to ban a user or add a user.</li>
+</ol>
+<p><strong>Drawbacks</strong></p>
+<ol class="arabic simple">
+<li>Security problem, if we choose to expose this to the Internet, we are
+under great risk of been hacked.</li>
+<li>We got another system to maintain.</li>
+</ol>
+
+    </article>
+    <section class="post-nav">
+        <div id="left-page">
+            <div id="left-link">
+                <div id="left-arrow"><i class="fa fa-chevron-circle-left"></i></div>
+                <a href="/Web-Server-Permission.html"> Web Server Permission</a>
+            </div>
+        </div>
+        <div id="right-page">
+            <div id="right-link">
+                <a href="/Change-Ip-Over-Ssh.html">Change Ip Over Ssh </a>
+                <div id="right-arrow"><i class="fa fa-chevron-circle-right"></i></div>
+            </div>
+        </div>
+    </section>
+    <div>
+    </div>
+</main>
+    <footer>
+        <h6>
+            Copyright &copy 2018
+- Alex Rhino | Rendered by <a href="http://getpelican.com/">Pelican</a> |
+            Powered by <a href="http://python.org">Python</a>
+        </h6>
+    </footer>
+</div>
+</body>
+</html>

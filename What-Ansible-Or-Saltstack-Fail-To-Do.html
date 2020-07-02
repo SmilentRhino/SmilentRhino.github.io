@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>AlexRhino - What Ansible Or Saltstack Fail To Do</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css"/>
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab|Ruda"/>
+        <link rel="stylesheet" type="text/css" href="/theme/css/main.css"/>
+
+<meta name="tags" content="devops" />
+</head>
+<body>
+<style>.github-corner:hover .octo-arm {
+    animation: octocat-wave 560ms ease-in-out
+}
+@keyframes octocat-wave {
+    0%, 100% {
+        transform: rotate(0)
+    }
+    20%, 60% {
+        transform: rotate(-25deg)
+    }
+    40%, 80% {
+        transform: rotate(10deg)
+    }
+}
+@media (max-width: 500px) {
+    .github-corner:hover .octo-arm {
+        animation: none
+    }
+
+    .github-corner .octo-arm {
+        animation: octocat-wave 560ms ease-in-out
+    }
+}</style><div id="container">
+    <header>
+        <h1><a href="/">AlexRhino</a></h1>
+            <ul class="social-media">
+                    <li><a href="#"><i class="fa fa-You can add links in your config file fa-lg" aria-hidden="true"></i></a></li>
+                    <li><a href="#"><i class="fa fa-Another social link fa-lg" aria-hidden="true"></i></a></li>
+            </ul>
+        <p><em></em></p>
+    </header>
+    <nav>
+        <ul>
+                    <li><a href="/category/devops.html"> devops </a></li>
+                    <li><a                         class="active" href="/category/post.html"> post </a></li>
+                    <li><a href="/pages/My favorite line.html">About Me</a>
+                    </li>
+        </ul>
+    </nav>
+<main>
+    <article>
+        <h2>What Ansible Or Saltstack Fail To Do</h2>
+        
+        <aside>
+            <ul>
+                <li>
+                    <time datetime="2018-01-08 02:17:12+00:00">Jan 08, 2018</time>
+                </li>
+                <li>
+                    <time datetime="2018-01-08 02:17:12+00:00">Modified
+                        on Jan 08, 2018</time>
+                </li>
+                <li>3 min read</li>
+                <li>
+                    Categories:
+                    <a href="/category/post.html"><em>post</em></a>
+                </li>
+                <li>
+                    Tags:
+                    <a href="/tag/devops.html"><em>#devops</em></a>
+                </li>
+            </ul>
+        </aside>
+        <p>They are not perfect, so not perfect.</p>
+<p><strong>Ansible</strong></p>
+<ol class="arabic simple">
+<li>Doc auto generator from playbooks are still in proposal</li>
+</ol>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/ansible/proposals/issues/19">Proposal 19</a></li>
+</ul>
+<ol class="arabic simple">
+<li>Aws sqs do not support tag_queue()</li>
+<li>Ansible check is not supported by most aws related modules, you run
+the playbook, changes are made, expose to some risk when you want put
+existing resources under control</li>
+<li><a class="reference external" href="https://github.com/ansible/ansible/issues/33076">Fail to set delivery_delay to 0 before
+2.4</a></li>
+<li>Loose structure, <a class="reference external" href="https://rock-it.pl/managing-multiple-environments-with-ansible-best-practices/">Best
+Practice</a></li>
+</ol>
+<p><strong>Saltstack</strong></p>
+<ol class="arabic simple">
+<li>What do you think of the traditional skills?</li>
+</ol>
+<ul class="simple">
+<li>No doc auto generator from states files</li>
+<li><a class="reference external" href="https://github.com/saltstack/salt/issues/2454">Discussion in
+2012</a></li>
+</ul>
+<p><strong>Improper ansible playbook</strong></p>
+<ol class="arabic">
+<li><p class="first">Use shell do get variables, written by old-school ops, but it works,
+should we criticize it? I thinks environment varibles should be used
+here. This dude just use ansible as an glue tool, to put pieces of
+shell together. In fact, usage like this won't be a problem, except
+that it goes against idempotence, and there is no input check.</p>
+<pre class="literal-block">
+- name: &quot;Get REG_AWS_ACCESS_KEY&quot;
+  shell:
+    &quot;aws configure get aws_access_key_id --profile {{ Global_AWS_Profile }}&quot;
+  register: REG_AWS_ACCESS_KEY
+- name: &quot;Get AWS_SECRET_KEY&quot;
+  shell:
+    &quot;aws configure get aws_secret_access_key --profile {{ Global_AWS_Profile }}&quot;
+  register: REG_AWS_SECRET_KEY
+- name: &quot;Updata default Global_AWS_Region&quot;
+  shell:
+    &quot;aws configure set region {{ Global_AWS_Region }} --profile {{ Global_AWS_Profile }}&quot;
+- name: &quot;Get current default Global_AWS_Region&quot;
+  shell:
+    &quot;aws configure get region --profile {{ Global_AWS_Profile }}&quot;
+  register: REG_AWS_DEFAULT_REGION
+</pre>
+</li>
+<li><p class="first">This is written by me, totally shit. We should not separate env in
+roles, but in group_vars. Then here comes the problem, what should be
+variables, how can we keep consistence and flexibility at the same
+time? When a repo gets so big, how should we resolve the cross
+dependency problem, especially for support components.</p>
+<pre class="literal-block">
+- name: create sample access sqs for dev and test and stage env
+  iam_managed_policy:
+    policy_name: &quot;sample-access-sqs-{{ item }}&quot;
+    policy_description: &quot;A policy for sample to access {{ item }} sqs&quot;
+    policy: &quot;{{ lookup('template', 'sample_access_sqs_policy.json.j2') }}&quot;
+    state: present
+  with_items:
+    - dev
+    - test
+    - stage
+  environment:
+    AWS_PROFILE: &quot;{{ AWS_PROFILE_DEV }}&quot;
+  tags:
+    - sample-sqs-role
+    - dev
+
+- name: create sample access sqs for dev and test and stage role
+  iam_role:
+    name: sample-access-sqs-{{ item }}-role
+    profile: &quot;{{AWS_PROFILE_DEV}}&quot;
+    assume_role_policy_document: &quot;{{ lookup('template','sample_access_sqs_role_policy.json.j2') }}&quot;
+    state: present
+    managed_policy:
+      - &quot;arn:aws:iam::000000000000:policy/sample-access-sqs-{{ item }}&quot;
+  with_items:
+    - dev
+    - test
+    - stage
+  tags:
+    - sample-sqs-role
+    - dev
+</pre>
+</li>
+<li><p class="first"><a class="reference external" href="https://github.com/saltstack/salt/issues/32365">Saltstack pyobject render
+bug</a></p>
+</li>
+<li><p class="first">[Minion did not
+return](<a class="reference external" href="https://docs.saltstack.com/en/latest/faq.html#when-i-run-test-ping-why-don-t-the-minions-that-aren-t-responding-return-anything-returning-false-would-be-helpful">https://docs.saltstack.com/en/latest/faq.html#when-i-run-test-ping-why-don-t-the-minions-that-aren-t-responding-return-anything-returning-false-would-be-helpful</a></p>
+</li>
+<li><p class="first"><a class="reference external" href="https://github.com/saltstack/salt/issues/48470">ping-interval and
+gather_job_timeout</a></p>
+</li>
+<li><p class="first"><a class="reference external" href="https://blog.afoolishmanifesto.com/posts/checking-sudoers-with-visudo-in-saltstack/">Checking sudoers with visudo in
+SaltStack</a></p>
+</li>
+</ol>
+
+    </article>
+    <section class="post-nav">
+        <div id="left-page">
+            <div id="left-link">
+                <div id="left-arrow"><i class="fa fa-chevron-circle-left"></i></div>
+                <a href="/I-Like-Prometheus.html"> I Like Prometheus</a>
+            </div>
+        </div>
+        <div id="right-page">
+            <div id="right-link">
+                <a href="/I-Should-Know-This-About-Aws.html">I Should Know This About Aws </a>
+                <div id="right-arrow"><i class="fa fa-chevron-circle-right"></i></div>
+            </div>
+        </div>
+    </section>
+    <div>
+    </div>
+</main>
+    <footer>
+        <h6>
+            Copyright &copy 2018
+- Alex Rhino | Rendered by <a href="http://getpelican.com/">Pelican</a> |
+            Powered by <a href="http://python.org">Python</a>
+        </h6>
+    </footer>
+</div>
+</body>
+</html>

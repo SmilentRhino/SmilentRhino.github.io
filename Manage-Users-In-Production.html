@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>AlexRhino - Manage Users In Production</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css"/>
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab|Ruda"/>
+        <link rel="stylesheet" type="text/css" href="/theme/css/main.css"/>
+
+<meta name="tags" content="devop" />
+</head>
+<body>
+<style>.github-corner:hover .octo-arm {
+    animation: octocat-wave 560ms ease-in-out
+}
+@keyframes octocat-wave {
+    0%, 100% {
+        transform: rotate(0)
+    }
+    20%, 60% {
+        transform: rotate(-25deg)
+    }
+    40%, 80% {
+        transform: rotate(10deg)
+    }
+}
+@media (max-width: 500px) {
+    .github-corner:hover .octo-arm {
+        animation: none
+    }
+
+    .github-corner .octo-arm {
+        animation: octocat-wave 560ms ease-in-out
+    }
+}</style><div id="container">
+    <header>
+        <h1><a href="/">AlexRhino</a></h1>
+            <ul class="social-media">
+                    <li><a href="#"><i class="fa fa-You can add links in your config file fa-lg" aria-hidden="true"></i></a></li>
+                    <li><a href="#"><i class="fa fa-Another social link fa-lg" aria-hidden="true"></i></a></li>
+            </ul>
+        <p><em></em></p>
+    </header>
+    <nav>
+        <ul>
+                    <li><a href="/category/devops.html"> devops </a></li>
+                    <li><a                         class="active" href="/category/post.html"> post </a></li>
+                    <li><a href="/pages/My favorite line.html">About Me</a>
+                    </li>
+        </ul>
+    </nav>
+<main>
+    <article>
+        <h2>Manage Users In Production</h2>
+        
+        <aside>
+            <ul>
+                <li>
+                    <time datetime="2017-05-07 03:34:48+01:00">May 07, 2017</time>
+                </li>
+                <li>
+                    <time datetime="2017-05-07 03:34:48+01:00">Modified
+                        on May 07, 2017</time>
+                </li>
+                <li>3 min read</li>
+                <li>
+                    Categories:
+                    <a href="/category/post.html"><em>post</em></a>
+                </li>
+                <li>
+                    Tags:
+                    <a href="/tag/devop.html"><em>#devop</em></a>
+                </li>
+            </ul>
+        </aside>
+        <p>Actually I have never thought about this before, which tool should we
+use to manage users in production?</p>
+<p><strong>Problem</strong></p>
+<ol class="arabic simple">
+<li>During my short ops life, user management is always a pain as well
+as assets management. Ops team don't know exactly how many servers
+we have nor who are on this servers.</li>
+<li>As a new member in the team, everytime I tried to solve a problem, I
+would find I didn't have the permission. Sometimes the wiki,
+sometimes nagios or zabbix. Not because my teamates don't trust me.
+They just forget about them at all. We manage all those pemission
+separately, in every tools we use.</li>
+<li>In one of my ex-employers, it took half an hour to register me in
+the system so that I can have access to the bastion server. Even for
+security reason, I still think it unneccesary.</li>
+<li>In another company, we used puppet to manage users in production,
+but we had to go through all other internal services when one
+employee left for any reason. This whole process was boring and
+error-prone. Even after the staff had gone for months, we sometimes
+could still find him/her on one server or another. Not untill we did
+a massive recheck could we find that out.</li>
+<li>Some of my friends said they now use ansible to manage access on aws
+ec2. It is no less time consuming and error prone, in such an
+enviroment when people come on board in the morning and leave for
+better opportunity in the afternoon.</li>
+<li>I have been thinking about this for a while, and thought maybe we
+need a web server to do central authentication, generator dynamic
+state files or manifests, and use puppet or salt to manange them.
+But maybe I was totally wrong.</li>
+<li>Do I know about LDAP, of course I do, do we used this in office, the
+answer is yes. Have I manage or control it, no. Why haven't I
+thought about it before, I did, but I never do any test to verify my
+assumption, nor do I know any person do this. I have never ask them
+why they prefer to do this but not that, why puppet not ldap.</li>
+<li>We do separate production from office network, right, so how should
+ldap work properly here?</li>
+<li>By the way when it comes to store sensitive private keys or secrets,
+Vault seems to be a good solution, only it seems to be a little two
+complicated.</li>
+<li>Wait a minute, how come I forget the SSO solution, how about combine
+the open source CAS with this.
+<a class="reference external" href="https://github.com/apereo/cas">CAS</a></li>
+<li>I saw so few articles discuss about this, how come it become a lost
+art?</li>
+</ol>
+<p><strong>Search</strong></p>
+<ol class="arabic simple">
+<li>[Question on
+SF](<a class="reference external" href="https://serverfault.com/questions/381756/">https://serverfault.com/questions/381756/</a>
+puppet-how-to-create-and-manage-unix-users-and-groups)</li>
+<li>[Another](<a class="reference external" href="https://serverfault.com/questions/">https://serverfault.com/questions/</a>
+489913/managing-users-with-puppet-or-ldap)</li>
+<li>[An Ad but with good
+point](<a class="reference external" href="https://jumpcloud.com/blog/">https://jumpcloud.com/blog/</a>
+why-user-management-in-chef-and-puppet-is-a-mistake/)</li>
+<li>[Jumpbox or
+not](<a class="reference external" href="http://radar.oreilly.com/2014/01/">http://radar.oreilly.com/2014/01/</a>
+is-the-jump-box-obsolete.html)</li>
+<li>[LDAP and
+SSH](<a class="reference external" href="https://serverfault.com/questions/653792/">https://serverfault.com/questions/653792/</a>
+ssh-key-authentication-using-ldap)</li>
+<li><a class="reference external" href="http://pig.made-it.com/ldap-openssh.html">Another tutorial</a></li>
+</ol>
+<p><strong>Conclusion</strong></p>
+<p>Nearly all authentication backend support ldap, or use ldap as backend.
+So it is still the first choice. Almost all other open source software
+we use in daily operation support integrate with it. And we should
+manage it with configuration management tool for backup and version
+control. Vault will be a good plus for authentication management in
+cloud or situation with high security requirement.</p>
+
+    </article>
+    <section class="post-nav">
+        <div id="left-page">
+            <div id="left-link">
+                <div id="left-arrow"><i class="fa fa-chevron-circle-left"></i></div>
+                <a href="/Task-List.html"> Task List</a>
+            </div>
+        </div>
+        <div id="right-page">
+            <div id="right-link">
+                <a href="/Perfectionism.html">Perfectionism </a>
+                <div id="right-arrow"><i class="fa fa-chevron-circle-right"></i></div>
+            </div>
+        </div>
+    </section>
+    <div>
+    </div>
+</main>
+    <footer>
+        <h6>
+            Copyright &copy 2018
+- Alex Rhino | Rendered by <a href="http://getpelican.com/">Pelican</a> |
+            Powered by <a href="http://python.org">Python</a>
+        </h6>
+    </footer>
+</div>
+</body>
+</html>

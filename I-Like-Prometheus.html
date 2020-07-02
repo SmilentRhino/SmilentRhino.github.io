@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>AlexRhino - I Like Prometheus</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css"/>
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab|Ruda"/>
+        <link rel="stylesheet" type="text/css" href="/theme/css/main.css"/>
+
+<meta name="tags" content="Devops" />
+</head>
+<body>
+<style>.github-corner:hover .octo-arm {
+    animation: octocat-wave 560ms ease-in-out
+}
+@keyframes octocat-wave {
+    0%, 100% {
+        transform: rotate(0)
+    }
+    20%, 60% {
+        transform: rotate(-25deg)
+    }
+    40%, 80% {
+        transform: rotate(10deg)
+    }
+}
+@media (max-width: 500px) {
+    .github-corner:hover .octo-arm {
+        animation: none
+    }
+
+    .github-corner .octo-arm {
+        animation: octocat-wave 560ms ease-in-out
+    }
+}</style><div id="container">
+    <header>
+        <h1><a href="/">AlexRhino</a></h1>
+            <ul class="social-media">
+                    <li><a href="#"><i class="fa fa-You can add links in your config file fa-lg" aria-hidden="true"></i></a></li>
+                    <li><a href="#"><i class="fa fa-Another social link fa-lg" aria-hidden="true"></i></a></li>
+            </ul>
+        <p><em></em></p>
+    </header>
+    <nav>
+        <ul>
+                    <li><a href="/category/devops.html"> devops </a></li>
+                    <li><a                         class="active" href="/category/post.html"> post </a></li>
+                    <li><a href="/pages/My favorite line.html">About Me</a>
+                    </li>
+        </ul>
+    </nav>
+<main>
+    <article>
+        <h2>I Like Prometheus</h2>
+        
+        <aside>
+            <ul>
+                <li>
+                    <time datetime="2018-01-08 04:24:01+00:00">Jan 08, 2018</time>
+                </li>
+                <li>
+                    <time datetime="2018-01-08 04:24:01+00:00">Modified
+                        on Jan 08, 2018</time>
+                </li>
+                <li>2 min read</li>
+                <li>
+                    Categories:
+                    <a href="/category/post.html"><em>post</em></a>
+                </li>
+                <li>
+                    Tags:
+                    <a href="/tag/devops.html"><em>#Devops</em></a>
+                </li>
+            </ul>
+        </aside>
+        <p>Let's use prometheus</p>
+<p><strong>How to query</strong></p>
+<ol class="arabic simple">
+<li>Get all metrics</li>
+</ol>
+<ul>
+<li><div class="first"><pre><code>curl http://127.0.0.1:8001/api/v1/namespaces/monitoring/services/monitoring-prometheus/proxy/api/v1/label/__name__/values | python -m json.tool</code></pre></div></li>
+<li><div class="first"><pre><code>http http://127.0.0.1:8001/api/v1/namespaces/monitoring/services/monitoring-prometheus/proxy/api/v1/label/__name__/values</code></pre></div></li>
+</ul>
+<ol class="arabic simple">
+<li>Get memory cache</li>
+</ol>
+<ul>
+<li><div class="first"><pre><code>curl -X GET -G http://127.0.0.1:8001/api/v1/namespaces/monitoring/services/monitoring-prometheus/proxy/api/v1/query -d query=container_memory_cache{job=\"kubernetes-nodes\"}</code></pre></div></li>
+</ul>
+<ol class="arabic simple">
+<li>Get container mem cache</li>
+</ol>
+<ul>
+<li><div class="first"><pre><code>http http://127.0.0.1:8001/api/v1/namespaces/monitoring/services/monitoring-prometheus/proxy/api/v1/query query==container_memory_cache{pod_name=\"ar-deployment-1845586729-bnvx4\"}</code></pre></div></li>
+</ul>
+<ol class="arabic simple">
+<li><a class="reference external" href="https://www.robustperception.io/alerting-on-gauges-in-prometheus-2-0/">Check instance
+down.</a></li>
+<li><a class="reference external" href="https://stackoverflow.com/questions/46368241/how-to-setup-network-traffic-alerts-on-a-linux-machine">Check network
+status</a></li>
+<li><a class="reference external" href="https://github.com/kayrus/prometheus-kubernetes/blob/master/prometheus-rules/low-disk-space.rules">Check disk
+space</a></li>
+<li><a class="reference external" href="https://github.com/prometheus/prometheus/issues/1251">Check Node
+load</a></li>
+<li><a class="reference external" href="https://github.com/prometheus/node_exporter/issues/269">Free space vs Available
+Space</a></li>
+<li><a class="reference external" href="https://gist.github.com/smrchy/a1c0e6f05babaa55dea40d1f91c33191">Sample
+rules</a></li>
+<li><a class="reference external" href="https://github.com/prometheus/prometheus/issues/969">Aggregation
+example</a></li>
+<li><a class="reference external" href="https://noise.fresh8.co/prometheus-alerting-gotchas-detecting-no-events-e360ff078b63">Detect no data
+event</a></li>
+<li><a class="reference external" href="'https://github.com/prometheus/mysqld_exporter'">mysql exporter</a></li>
+<li><a class="reference external" href="https://github.com/fstab/grok_exporter">grok exporter</a></li>
+<li><a class="reference external" href="https://github.com/google/mtail">mtail</a></li>
+</ol>
+<p><strong>Alert Rule Expression Sample:</strong></p>
+<p><strong>Node exporter</strong></p>
+<pre class="literal-block">
+1. up{&quot;instance =~&quot;.*:9100&quot;} == 0
+2. avg_over_time(up{}[5m]) &lt; 0.8 and avg_over_time(up{}[5m]) !=  0
+3. predict_linear(node_filesystem_free_bytes{mountpoint=&quot;/&quot;}[1h], 4*3600) &lt; 0
+4. node_filesystem_free_bytes{fstype=~&quot;xfs|ext4&quot;}/node_filesystem_size_bytes{fstype=~&quot;xfs|ext4&quot;}*100&lt;20
+5. node_filesystem_free_bytes{fstype=~&quot;xfs|ext4&quot;,mountpoint=&quot;/&quot;}/node_filesystem_size_bytes{fstype=~&quot;xfs|ext4&quot;,mountpoint=&quot;/&quot;}*100&lt;20
+6. (node_memory_MemAvailable_bytes{}/node_memory_MemTotal_bytes{})*100&lt;5
+7. node_systemd_unit_state{name=&quot;salt-minion.service&quot;,state='active'} != 1
+8. (100 - ( avg by (instanceName) (irate(node_cpu_seconds_total{mode=&quot;idle&quot;, instanceName !~&quot;salt&quot;}[5m])) * 100)) &gt; 95
+</pre>
+
+    </article>
+    <section class="post-nav">
+        <div id="left-page">
+            <div id="left-link">
+                <div id="left-arrow"><i class="fa fa-chevron-circle-left"></i></div>
+                <a href="/I-Like-Git.html"> I Like Git</a>
+            </div>
+        </div>
+        <div id="right-page">
+            <div id="right-link">
+                <a href="/What-Ansible-Or-Saltstack-Fail-To-Do.html">What Ansible Or Saltstack Fail To Do </a>
+                <div id="right-arrow"><i class="fa fa-chevron-circle-right"></i></div>
+            </div>
+        </div>
+    </section>
+    <div>
+    </div>
+</main>
+    <footer>
+        <h6>
+            Copyright &copy 2018
+- Alex Rhino | Rendered by <a href="http://getpelican.com/">Pelican</a> |
+            Powered by <a href="http://python.org">Python</a>
+        </h6>
+    </footer>
+</div>
+</body>
+</html>

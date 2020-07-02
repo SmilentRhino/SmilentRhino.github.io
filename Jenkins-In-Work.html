@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>AlexRhino - Jenkins In Work</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css"/>
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab|Ruda"/>
+        <link rel="stylesheet" type="text/css" href="/theme/css/main.css"/>
+
+<meta name="tags" content="work" />
+<meta name="tags" content="jenkins" />
+</head>
+<body>
+<style>.github-corner:hover .octo-arm {
+    animation: octocat-wave 560ms ease-in-out
+}
+@keyframes octocat-wave {
+    0%, 100% {
+        transform: rotate(0)
+    }
+    20%, 60% {
+        transform: rotate(-25deg)
+    }
+    40%, 80% {
+        transform: rotate(10deg)
+    }
+}
+@media (max-width: 500px) {
+    .github-corner:hover .octo-arm {
+        animation: none
+    }
+
+    .github-corner .octo-arm {
+        animation: octocat-wave 560ms ease-in-out
+    }
+}</style><div id="container">
+    <header>
+        <h1><a href="/">AlexRhino</a></h1>
+            <ul class="social-media">
+                    <li><a href="#"><i class="fa fa-You can add links in your config file fa-lg" aria-hidden="true"></i></a></li>
+                    <li><a href="#"><i class="fa fa-Another social link fa-lg" aria-hidden="true"></i></a></li>
+            </ul>
+        <p><em></em></p>
+    </header>
+    <nav>
+        <ul>
+                    <li><a href="/category/devops.html"> devops </a></li>
+                    <li><a                         class="active" href="/category/post.html"> post </a></li>
+                    <li><a href="/pages/My favorite line.html">About Me</a>
+                    </li>
+        </ul>
+    </nav>
+<main>
+    <article>
+        <h2>Jenkins In Work</h2>
+        
+        <aside>
+            <ul>
+                <li>
+                    <time datetime="2017-06-15 01:39:52+01:00">Jun 15, 2017</time>
+                </li>
+                <li>
+                    <time datetime="2017-06-15 01:39:52+01:00">Modified
+                        on Jun 15, 2017</time>
+                </li>
+                <li>25 min read</li>
+                <li>
+                    Categories:
+                    <a href="/category/post.html"><em>post</em></a>
+                </li>
+                <li>
+                    Tags:
+                    <a href="/tag/work.html"><em>#work</em></a>
+                    <a href="/tag/jenkins.html"><em>#jenkins</em></a>
+                </li>
+            </ul>
+        </aside>
+        <p>My notes of jenkins usages in work.</p>
+<div class="section" id="section-1">
+<h2>Section 1</h2>
+<div class="section" id="my-jenkins-experience-in-the-first-few-weeks">
+<h3>My jenkins experience in the first few weeks##</h3>
+<p><strong>Jenkins Error</strong></p>
+<ol class="arabic simple">
+<li>Unexpected executor death - java.lang.IllegalStateException: already
+existed</li>
+</ol>
+<ul class="simple">
+<li>Similar problem online, <a class="reference external" href="https://issues.jenkins-ci.org/browse/JENKINS-29902">jenkins
+issue</a></li>
+<li>Similar problem online, <a class="reference external" href="https://issues.jenkins-ci.org/browse/JENKINS-32152">jenkins
+issu</a></li>
+<li>Cause: We selected <em>reload configration from disk</em> in order to debug
+a login problem, and confused the server.</li>
+<li>Solution: Just restart the thread will do.</li>
+</ul>
+<ol class="arabic simple">
+<li>Lost mount on mac mini</li>
+</ol>
+<ul class="simple">
+<li>Cause: use mount_smbfs to mount shared disk, once agent restart,
+mount lost</li>
+<li>Solution:
+<a class="reference external" href="https://gist.github.com/rudelm/7bcc905ab748ab9879ea">autofs</a></li>
+</ul>
+<p><strong>Jenkins API</strong></p>
+<ol class="arabic simple">
+<li>python-jenkins get_version failed to auth?</li>
+</ol>
+<ul class="simple">
+<li><a class="reference external" href="https://wiki.jenkins-ci.org/display/JENKINS/Authenticating+scripted+clients">Root
+Cause</a></li>
+<li>Or give anyone the permissiont to get verion</li>
+<li>Or use jenkinsapi instead</li>
+<li>[Stackoverflow post](
+<a class="reference external" href="https://stackoverflow.com/questions/40253108/">https://stackoverflow.com/questions/40253108/</a>
+get-jenkins-badhttpexception-when-try-to-get-version-info-from-jenkins-run-on-do
+)</li>
+<li>One github patch will do the trick, but they accept only on
+openstack, <a class="reference external" href="https://github.com/openstack/python-jenkins/pull/1">github
+issue</a></li>
+</ul>
+<ol class="arabic simple">
+<li>No valid crumb was included in the request?</li>
+</ol>
+<ul class="simple">
+<li>This happens when you use &quot;Prevent Cross Site Request Forgery
+exploits&quot; security option (which it should)</li>
+<li>Offical explanation,
+<a class="reference external" href="https://wiki.jenkins-ci.org/display/JENKINS/CSRF+Protection">CSRF+Protection</a>
+and
+<a class="reference external" href="https://wiki.jenkins-ci.org/display/JENKINS/Remote+access+API">Remote+access+API</a></li>
+<li>Example to use crumb api, <a class="reference external" href="https://github.com/pycontribs/jenkinsapi/pull/479">github jenkinsapi
+issue</a></li>
+</ul>
+<ol class="arabic simple">
+<li>How to manage plugin version?</li>
+</ol>
+<ul class="simple">
+<li>Let's say that you want a fresh jenkins installed but with all the
+plugins, how to achieve that.</li>
+<li>Option1, ansible, <a class="reference external" href="https://galaxy.ansible.com/geerlingguy/jenkins/">ansible
+role</a></li>
+<li>Option2, python api, which call jenkins api
+pluginManager/installNecessaryPlugins, [source code](
+<a class="reference external" href="https://github.com/pycontribs/">https://github.com/pycontribs/</a>
+jenkinsapi/blob/8250824df284db2357184ce268b84a7fab6f2a9f/jenkinsapi/jenkins.py)</li>
+<li>Option3, jenkins cli, [stackvoerflow](
+<a class="reference external" href="https://stackoverflow.com/questions/34761047/">https://stackoverflow.com/questions/34761047/</a>
+how-to-install-jenkins-plugins-from-command-line)</li>
+<li>Option4, saltstack, which call jenkins cli,
+<a class="reference external" href="https://github.com/saltstack-formulas/jenkins-formula">jenkins-formula</a></li>
+<li>Option5, chef, which do also call jenkins cli, [chef source code](
+<a class="reference external" href="https://github.com/chef-cookbooks/">https://github.com/chef-cookbooks/</a>
+jenkins/blob/master/libraries/_executor.rb)</li>
+<li>Option6, puppet, which download and copy to plugins directory [puppet
+manifest](<a class="reference external" href="https://github.com/">https://github.com/</a>
+jenkinsci/puppet-jenkins/blob/master/manifests/plugin.pp)</li>
+<li><a class="reference external" href="https://jenkins.io/doc/book/managing/plugins/">Official doc</a></li>
+</ul>
+<ol class="arabic simple">
+<li>Problem of mutil-branch-project plugin.</li>
+</ol>
+<ul>
+<li><p class="first">When using plugin older than version 0.3, we got not sub project in
+the api.</p>
+<pre><code>
+(pyenvjenkins) ubuntu@bbazhang:~$ python
+Python 3.5.2 (default, Nov 17 2016, 17:05:23)
+[GCC 5.4.0 20160609] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> from jenkinsapi.jenkins import Jenkins
+>>> jenkins_url = 'http://192.168.33.41:8080/'
+>>> server = Jenkins(jenkins_url, username='admin', password='3f3606c1bf54f407693ace4570f713ab')
+>>> myjob = server.get_jobs_list()
+>>> print(myjob)
+['azhang_test1', 'azhang_test2']
+>>>
+</code></pre></li>
+<li><p class="first">Plugin older then version 0.4, we got this.</p>
+<pre><code>
+(pyenvjenkins) ubuntu@bbazhang:~$ python
+Python 3.5.2 (default, Nov 17 2016, 17:05:23)
+[GCC 5.4.0 20160609] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> from jenkinsapi.jenkins import Jenkins
+>>> jenkins_url = 'http://192.168.33.41:8080/'
+>>> server = Jenkins(jenkins_url, username='admin', password='3f3606c1bf54f407693ace4570f713ab')
+>>> myjob = server.get_jobs_list()
+>>> print(myjob)
+['azhang_test2', 'master', 'azhang_test1/master', 'test', 'azhang_test1/test']
+>>>
+</code></pre></li>
+<li><p class="first">And pre 0.3 plugin won't return builds for parrent job, but views.</p>
+<pre><code>
+(pyenvjenkins) ubuntu@bbazhang:~$ http -a admin:3f3606c1bf54f407693ace4570f713ab http://192.168.33.41:8080/job/azhang_test1/api/json?depth=1
+HTTP/1.1 200 OK
+Content-Encoding: gzip
+Content-Length: 1030
+Content-Type: application/json;charset=UTF-8
+Server: Jetty(winstone-2.8)
+X-Content-Type-Options: nosniff
+X-Jenkins: 1.609.2
+X-Jenkins-Session: 59961173
+
+{
+    "actions": [
+        {},
+        {},
+        {
+            "jobConfigHistory": [
+                {
+                    "currentName": "",
+                    "date": "2017-06-21_03-46-19",
+                    "hasConfig": true,
+                    "job": "azhang_test1",
+                    "oldName": "",
+                    "operation": "Changed",
+                    "user": "Anonym",
+                    "userID": "anonymous"
+                },
+                {
+                    "currentName": "",
+                    "date": "2017-06-21_03-40-37",
+                    "hasConfig": true,
+                    "job": "azhang_test1",
+                    "oldName": "",
+                    "operation": "Changed",
+                    "user": "Anonym",
+                    "userID": "anonymous"
+                },
+                {
+                    "currentName": "",
+                    "date": "2017-06-21_03-14-35",
+                    "hasConfig": true,
+                    "job": "azhang_test1",
+                    "oldName": "",
+                    "operation": "Changed",
+                    "user": "Anonym",
+                    "userID": "anonymous"
+                },
+                {
+                    "currentName": "",
+                    "date": "2017-06-21_02-37-05",
+                    "hasConfig": true,
+                    "job": "azhang_test1",
+                    "oldName": "",
+                    "operation": "Changed",
+                    "user": "admin",
+                    "userID": "admin"
+                },
+                {
+                    "currentName": "",
+                    "date": "2017-06-21_02-36-18",
+                    "hasConfig": true,
+                    "job": "azhang_test1",
+                    "oldName": "",
+                    "operation": "Changed",
+                    "user": "SYSTEM",
+                    "userID": "SYSTEM"
+                },
+                {
+                    "currentName": "",
+                    "date": "2017-06-21_02-35-55",
+                    "hasConfig": true,
+                    "job": "azhang_test1",
+                    "oldName": "",
+                    "operation": "Created",
+                    "user": "admin",
+                    "userID": "admin"
+                },
+                {
+                    "currentName": "",
+                    "date": "2017-06-21_02-35-54",
+                    "hasConfig": true,
+                    "job": "azhang_test1",
+                    "oldName": "",
+                    "operation": "Changed",
+                    "user": "admin",
+                    "userID": "admin"
+                },
+                {
+                    "currentName": "",
+                    "date": "2017-06-21_02-35-53",
+                    "hasConfig": true,
+                    "job": "azhang_test1",
+                    "oldName": "",
+                    "operation": "Changed",
+                    "user": "admin",
+                    "userID": "admin"
+                }
+            ]
+        },
+        {
+            "stores": {}
+        }
+    ],
+    "color": "blue",
+    "description": "",
+    "displayName": "azhang_test1",
+    "displayNameOrNull": null,
+    "firstBuild": {
+        "actions": [
+            {
+                "causes": [
+                    {
+                        "shortDescription": "Started by an SCM change"
+                    }
+                ]
+            },
+            {},
+            {},
+            {},
+            {
+                "buildsByBranchName": {
+                    "origin/test": {
+                        "buildNumber": 1,
+                        "buildResult": null,
+                        "marked": {
+                            "SHA1": "4dc918e10d99dc62cded91d5e65b7d3bdee49c30",
+                            "branch": [
+                                {
+                                    "SHA1": "4dc918e10d99dc62cded91d5e65b7d3bdee49c30",
+                                    "name": "origin/test"
+                                }
+                            ]
+                        },
+                        "revision": {
+                            "SHA1": "4dc918e10d99dc62cded91d5e65b7d3bdee49c30",
+                            "branch": [
+                                {
+                                    "SHA1": "4dc918e10d99dc62cded91d5e65b7d3bdee49c30",
+                                    "name": "origin/test"
+                                }
+                            ]
+                        }
+                    }
+                },
+                "lastBuiltRevision": {
+                    "SHA1": "4dc918e10d99dc62cded91d5e65b7d3bdee49c30",
+                    "branch": [
+                        {
+                            "SHA1": "4dc918e10d99dc62cded91d5e65b7d3bdee49c30",
+                            "name": "origin/test"
+                        }
+                    ]
+                },
+                "remoteUrls": [
+                    "https://github.com/SmilentRhino/op_mac.git"
+                ],
+                "scmName": ""
+            },
+            {},
+            {},
+            {},
+            {},
+            {},
+            {}
+        ],
+        "artifacts": [],
+        "building": false,
+        "builtOn": "",
+        "changeSet": {
+            "items": [],
+            "kind": "git"
+        },
+        "culprits": [],
+        "description": null,
+        "displayName": "#1",
+        "duration": 8938,
+        "estimatedDuration": 8938,
+        "executor": null,
+        "fullDisplayName": "azhang_test1 » test #1",
+        "id": "1",
+        "keepLog": false,
+        "number": 1,
+        "queueId": 2,
+        "result": "SUCCESS",
+        "timestamp": 1498012644567,
+        "url": "http://192.168.33.41:8080/job/azhang_test1/branch/test/1/"
+    },
+    "healthReport": [
+        {
+            "description": "Branches with last build successful",
+            "iconClassName": "icon-health-80plus",
+            "iconUrl": "health-80plus.png",
+            "score": 100
+        },
+        {
+            "description": "Branches with a build",
+            "iconClassName": "icon-health-80plus",
+            "iconUrl": "health-80plus.png",
+            "score": 100
+        },
+        {
+            "description": "Branches that have been recently active",
+            "iconClassName": "icon-health-80plus",
+            "iconUrl": "health-80plus.png",
+            "score": 100
+        }
+    ],
+    "lastBuild": {
+        "actions": [
+            {
+                "causes": [
+                    {
+                        "shortDescription": "Started by an SCM change"
+                    }
+                ]
+            },
+            {},
+            {},
+            {},
+            {
+                "buildsByBranchName": {
+                    "origin/master": {
+                        "buildNumber": 1,
+                        "buildResult": null,
+                        "marked": {
+                            "SHA1": "4dc918e10d99dc62cded91d5e65b7d3bdee49c30",
+                            "branch": [
+                                {
+                                    "SHA1": "4dc918e10d99dc62cded91d5e65b7d3bdee49c30",
+                                    "name": "origin/master"
+                                }
+                            ]
+                        },
+                        "revision": {
+                            "SHA1": "4dc918e10d99dc62cded91d5e65b7d3bdee49c30",
+                            "branch": [
+                                {
+                                    "SHA1": "4dc918e10d99dc62cded91d5e65b7d3bdee49c30",
+                                    "name": "origin/master"
+                                }
+                            ]
+                        }
+                    }
+                },
+                "lastBuiltRevision": {
+                    "SHA1": "4dc918e10d99dc62cded91d5e65b7d3bdee49c30",
+                    "branch": [
+                        {
+                            "SHA1": "4dc918e10d99dc62cded91d5e65b7d3bdee49c30",
+                            "name": "origin/master"
+                        }
+                    ]
+                },
+                "remoteUrls": [
+                    "https://github.com/SmilentRhino/op_mac.git"
+                ],
+                "scmName": ""
+            },
+            {},
+            {},
+            {},
+            {},
+            {},
+            {}
+        ],
+        "artifacts": [],
+        "building": false,
+        "builtOn": "",
+        "changeSet": {
+            "items": [],
+            "kind": "git"
+        },
+        "culprits": [],
+        "description": null,
+        "displayName": "#1",
+        "duration": 8935,
+        "estimatedDuration": 8935,
+        "executor": null,
+        "fullDisplayName": "azhang_test1 » master #1",
+        "id": "1",
+        "keepLog": false,
+        "number": 1,
+        "queueId": 3,
+        "result": "SUCCESS",
+        "timestamp": 1498012644574,
+        "url": "http://192.168.33.41:8080/job/azhang_test1/branch/master/1/"
+    },
+    "lastCompletedBuild": {
+        "actions": [
+            {
+                "causes": [
+                    {
+                        "shortDescription": "Started by an SCM change"
+                    }
+                ]
+            },
+            {},
+            {},
+            {},
+            {
+                "buildsByBranchName": {
+                    "origin/master": {
+                        "buildNumber": 1,
+                        "buildResult": null,
+                        "marked": {
+                            "SHA1": "4dc918e10d99dc62cded91d5e65b7d3bdee49c30",
+                            "branch": [
+                                {
+                                    "SHA1": "4dc918e10d99dc62cded91d5e65b7d3bdee49c30",
+                                    "name": "origin/master"
+                                }
+                            ]
+                        },
+                        "revision": {
+                            "SHA1": "4dc918e10d99dc62cded91d5e65b7d3bdee49c30",
+                            "branch": [
+                                {
+                                    "SHA1": "4dc918e10d99dc62cded91d5e65b7d3bdee49c30",
+                                    "name": "origin/master"
+                                }
+                            ]
+                        }
+                    }
+                },
+                "lastBuiltRevision": {
+                    "SHA1": "4dc918e10d99dc62cded91d5e65b7d3bdee49c30",
+                    "branch": [
+                        {
+                            "SHA1": "4dc918e10d99dc62cded91d5e65b7d3bdee49c30",
+                            "name": "origin/master"
+                        }
+                    ]
+                },
+                "remoteUrls": [
+                    "https://github.com/SmilentRhino/op_mac.git"
+                ],
+                "scmName": ""
+            },
+            {},
+            {},
+            {},
+            {},
+            {},
+            {}
+        ],
+        "artifacts": [],
+        "building": false,
+        "builtOn": "",
+        "changeSet": {
+            "items": [],
+            "kind": "git"
+        },
+        "culprits": [],
+        "description": null,
+        "displayName": "#1",
+        "duration": 8935,
+        "estimatedDuration": 8935,
+        "executor": null,
+        "fullDisplayName": "azhang_test1 » master #1",
+        "id": "1",
+        "keepLog": false,
+        "number": 1,
+        "queueId": 3,
+        "result": "SUCCESS",
+        "timestamp": 1498012644574,
+        "url": "http://192.168.33.41:8080/job/azhang_test1/branch/master/1/"
+    },
+    "lastFailedBuild": null,
+    "lastStableBuild": {
+        "actions": [
+            {
+                "causes": [
+                    {
+                        "shortDescription": "Started by an SCM change"
+                    }
+                ]
+            },
+            {},
+            {},
+            {},
+            {
+                "buildsByBranchName": {
+                    "origin/master": {
+                        "buildNumber": 1,
+                        "buildResult": null,
+                        "marked": {
+                            "SHA1": "4dc918e10d99dc62cded91d5e65b7d3bdee49c30",
+                            "branch": [
+                                {
+                                    "SHA1": "4dc918e10d99dc62cded91d5e65b7d3bdee49c30",
+                                    "name": "origin/master"
+                                }
+                            ]
+                        },
+                        "revision": {
+                            "SHA1": "4dc918e10d99dc62cded91d5e65b7d3bdee49c30",
+                            "branch": [
+                                {
+                                    "SHA1": "4dc918e10d99dc62cded91d5e65b7d3bdee49c30",
+                                    "name": "origin/master"
+                                }
+                            ]
+                        }
+                    }
+                },
+                "lastBuiltRevision": {
+                    "SHA1": "4dc918e10d99dc62cded91d5e65b7d3bdee49c30",
+                    "branch": [
+                        {
+                            "SHA1": "4dc918e10d99dc62cded91d5e65b7d3bdee49c30",
+                            "name": "origin/master"
+                        }
+                    ]
+                },
+                "remoteUrls": [
+                    "https://github.com/SmilentRhino/op_mac.git"
+                ],
+                "scmName": ""
+            },
+            {},
+            {},
+            {},
+            {},
+            {},
+            {}
+        ],
+        "artifacts": [],
+        "building": false,
+        "builtOn": "",
+        "changeSet": {
+            "items": [],
+            "kind": "git"
+        },
+        "culprits": [],
+        "description": null,
+        "displayName": "#1",
+        "duration": 8935,
+        "estimatedDuration": 8935,
+        "executor": null,
+        "fullDisplayName": "azhang_test1 » master #1",
+        "id": "1",
+        "keepLog": false,
+        "number": 1,
+        "queueId": 3,
+        "result": "SUCCESS",
+        "timestamp": 1498012644574,
+        "url": "http://192.168.33.41:8080/job/azhang_test1/branch/master/1/"
+    },
+    "lastSuccessfulBuild": {
+        "actions": [
+            {
+                "causes": [
+                    {
+                        "shortDescription": "Started by an SCM change"
+                    }
+                ]
+            },
+            {},
+            {},
+            {},
+            {
+                "buildsByBranchName": {
+                    "origin/master": {
+                        "buildNumber": 1,
+                        "buildResult": null,
+                        "marked": {
+                            "SHA1": "4dc918e10d99dc62cded91d5e65b7d3bdee49c30",
+                            "branch": [
+                                {
+                                    "SHA1": "4dc918e10d99dc62cded91d5e65b7d3bdee49c30",
+                                    "name": "origin/master"
+                                }
+                            ]
+                        },
+                        "revision": {
+                            "SHA1": "4dc918e10d99dc62cded91d5e65b7d3bdee49c30",
+                            "branch": [
+                                {
+                                    "SHA1": "4dc918e10d99dc62cded91d5e65b7d3bdee49c30",
+                                    "name": "origin/master"
+                                }
+                            ]
+                        }
+                    }
+                },
+                "lastBuiltRevision": {
+                    "SHA1": "4dc918e10d99dc62cded91d5e65b7d3bdee49c30",
+                    "branch": [
+                        {
+                            "SHA1": "4dc918e10d99dc62cded91d5e65b7d3bdee49c30",
+                            "name": "origin/master"
+                        }
+                    ]
+                },
+                "remoteUrls": [
+                    "https://github.com/SmilentRhino/op_mac.git"
+                ],
+                "scmName": ""
+            },
+            {},
+            {},
+            {},
+            {},
+            {},
+            {}
+        ],
+        "artifacts": [],
+        "building": false,
+        "builtOn": "",
+        "changeSet": {
+            "items": [],
+            "kind": "git"
+        },
+        "culprits": [],
+        "description": null,
+        "displayName": "#1",
+        "duration": 8935,
+        "estimatedDuration": 8935,
+        "executor": null,
+        "fullDisplayName": "azhang_test1 » master #1",
+        "id": "1",
+        "keepLog": false,
+        "number": 1,
+        "queueId": 3,
+        "result": "SUCCESS",
+        "timestamp": 1498012644574,
+        "url": "http://192.168.33.41:8080/job/azhang_test1/branch/master/1/"
+    },
+    "lastUnstableBuild": null,
+    "lastUnsuccessfulBuild": null,
+    "name": "azhang_test1",
+    "primaryView": {
+        "description": null,
+        "jobs": [
+            {
+                "color": "blue",
+                "name": "master",
+                "url": "http://192.168.33.41:8080/job/azhang_test1/branch/master/"
+            },
+            {
+                "color": "blue",
+                "name": "test",
+                "url": "http://192.168.33.41:8080/job/azhang_test1/branch/test/"
+            }
+        ],
+        "name": "All",
+        "property": [],
+        "url": "http://192.168.33.41:8080/job/azhang_test1/"
+    },
+    "url": "http://192.168.33.41:8080/job/azhang_test1/",
+    "views": [
+        {
+            "description": null,
+            "jobs": [
+                {
+                    "color": "blue",
+                    "name": "master",
+                    "url": "http://192.168.33.41:8080/job/azhang_test1/branch/master/"
+                },
+                {
+                    "color": "blue",
+                    "name": "test",
+                    "url": "http://192.168.33.41:8080/job/azhang_test1/branch/test/"
+                }
+            ],
+            "name": "All",
+            "property": [],
+            "url": "http://192.168.33.41:8080/job/azhang_test1/"
+        }
+    ]
+}
+(pyenvjenkins) ubuntu@bbazhang:~$
+</code></pre></li>
+<li><p class="first">That's why I suggest use requests to get json response from jenkins
+api directly, there are a lot of incompatibile plugins.How to you get
+the metrics plugin response with this...</p>
+</li>
+</ul>
+<p><strong>Jenkins HA</strong></p>
+<ol class="arabic simple">
+<li>What's the HA solution for jenkins.</li>
+</ol>
+<ul class="simple">
+<li>Apparently there is no reliale jenkins HA solution now.</li>
+<li>Openstack choose to use gearman, and provide a gearman plugin for
+this. However, gearman introduct complexity into this system and
+difficult to maintain.</li>
+<li>Cloudbees use cold standby for HA, but they are commercial products,
+if we choose to use it, why not travis ci?</li>
+<li>Teamcity and other CI softeware is interesting, but I have not time
+to really look at them.</li>
+<li>What we can do is to full backup all jenkins configration files, and
+use git to watch jenkins home. If wrong changes are make, we roll
+back, if it crashes, use the full backup to start over.</li>
+</ul>
+<p><strong>Backup and Discard</strong></p>
+<ol class="arabic simple">
+<li>Backup strategy.</li>
+</ol>
+<ul class="simple">
+<li>The first thing we should know is what the backup is for.</li>
+<li>In case of disk error, or network problem, we should backup the
+jenkins home entirely to setup on another server without any change.</li>
+<li>If we just want to backup job configure, I guess, all the *.xml
+configure are enough, but we will need some mechanism to deal with
+secrets, slaves, etc.</li>
+<li>My solution is periodly backup all the configration and sync the
+whole jenkins home to another server.</li>
+<li>Backup script,
+<a class="reference external" href="https://github.com/SmilentRhino/jenkins_test/blob/master/full_backup.py">full_backup.py</a></li>
+<li>Thin backup is good, but if you wanna more control on what is
+backuped, script is needed.</li>
+</ul>
+<ol class="arabic simple">
+<li>Discard older builds.</li>
+</ol>
+<ul class="simple">
+<li>Due to some historical reason, our jenkins consume large amount of
+diskspace, 70+ GB, all build logs. Nobody really would look into
+them, but I can't just del them.</li>
+<li>Build keeper plugin and discard old builds plugin both are good. If
+more flexibility or complex strategy is needed, script is necessary.</li>
+<li>At first I just scan the jenkins jobs directory on the master, and
+list the largest ten, and then find out the largest file in it. Then
+I filtered files older then two month, list them all and empty them.</li>
+<li>But why not just remove the builds, without log, the build info is
+useless.</li>
+<li>Here is a sample script to scan older build, not on the master but
+with api, which I think is more reasonable and safe.</li>
+<li><a class="reference external" href="https://github.com/SmilentRhino/jenkins_test/blob/master/discard_older_builds.py">Discard
+builds</a></li>
+<li>I use requests instead of python-jenkins module is because of the
+incompatibility of the multi-branch-project plugin.</li>
+</ul>
+<ol class="arabic simple">
+<li>Jenkins and Ansible</li>
+</ol>
+<ul class="simple">
+<li>I use geerlingguy.jenkins ansible role to install jenkins, the only
+problem is plugins won't work.</li>
+<li>Ubuntu 14.04 trusty use python2.7.6, which doesn't support SNI, and
+cause problem when using plugin update center.</li>
+<li>Then I used pyenv to install 2.7.9, but apt failed to import, sort of
+incompatible. I point python interpretor in the inventory file, won't
+work neither.</li>
+<li>And I do have some problem install java8, default is openjdk7</li>
+<li>A work acround is to use remote api, which means another custom
+ansible module.</li>
+</ul>
+<p><strong>Pipeline and DSL</strong></p>
+<ol class="arabic simple">
+<li>When we talk about Jenkins as code, you should really start from
+here,
+[marcesher.com](<a class="reference external" href="https://marcesher.com/2016/06/08/">https://marcesher.com/2016/06/08/</a>
+jenkins-as-code-creating-jenkins-jobs-with-text-not-clicks/)</li>
+<li>Why not I use pipeline only, pipeline can't create parameters
+properly. It will only create the paremeters after next build, if you
+wan't to add one parameter, you have to run the false build again,
+undesirable.</li>
+<li>DSL can create pipeline, that's why I choose to use pipeline when it
+works well and use DSL to create pipeline jobs.</li>
+<li>Experiment one</li>
+</ol>
+<ul class="simple">
+<li>If I create a pipeline job with scm, jenkins will first clone the
+repo into its workspace, and find the jenkinsfile; if the jenkins
+file also include git clone as a step, the jenkinsfile and other
+extra files in the first clone will be gone. Which means we don't
+have to put Jenkinsfile in the repo that we want to build, ops don't
+have pemission in the dev repo, right. Though in an ideal world ops
+should work with dev team, and this won't be a problem.</li>
+</ul>
+<ol class="arabic simple">
+<li>Experiment two, use env to pass credentials into python script.</li>
+</ol>
+<ul class="simple">
+<li>[Sample Jenkinsfile](<a class="reference external" href="https://github.com/">https://github.com/</a>
+SmilentRhino/jenkins_test_gain/blob/master/Jenkinsfile)</li>
+</ul>
+<p><strong>Git and Jenkins</strong></p>
+<ol class="arabic simple">
+<li>Why do we need configuration management.</li>
+</ol>
+<ul>
+<li><p class="first">If I accidently del a project, or uncheck an checkbox, I wouldn't
+know what happend and how to fix it.</p>
+</li>
+<li><p class="first">We use groovy script to check the node health of our slaves, but it
+fails to work recently, due to in-process script control</p>
+<pre><code>
+    ERROR: Build step failed with exception
+    org.jenkinsci.plugins.scriptsecurity.sandbox.RejectedAccessException: unclassified staticMethod java.lang.Thread start org.codehaus.groovy.runtime.GStringImpl Script1$_getEnviron_closure2
+        at org.jenkinsci.plugins.scriptsecurity.sandbox.groovy.SandboxInterceptor.onStaticCall(SandboxInterceptor.java:138)
+        at org.kohsuke.groovy.sandbox.impl.Checker$2.call(Checker.java:180)
+        at org.kohsuke.groovy.sandbox.impl.Checker.checkedStaticCall(Checker.java:177)
+        at org.kohsuke.groovy.sandbox.impl.Checker.checkedCall(Checker.java:91)
+        at org.kohsuke.groovy.sandbox.impl.Checker$checkedCall.callStatic(Unknown Source)
+        at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallStatic(CallSiteArray.java:50)
+        at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callStatic(AbstractCallSite.java:157)
+        at Script1.getEnviron(Script1.groovy:65)
+        at Script1$getEnviron.call(Unknown Source)
+        at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCall(CallSiteArray.java:42)
+        at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:108)
+        at org.kohsuke.groovy.sandbox.impl.Checker$1.call(Checker.java:151)
+        at org.kohsuke.groovy.sandbox.GroovyInterceptor.onMethodCall(GroovyInterceptor.java:21)
+        at org.jenkinsci.plugins.scriptsecurity.sandbox.groovy.SandboxInterceptor.onMethodCall(SandboxInterceptor.java:115)
+        at org.kohsuke.groovy.sandbox.impl.Checker$1.call(Checker.java:149)
+        at org.kohsuke.groovy.sandbox.impl.Checker.checkedCall(Checker.java:146)
+        at org.kohsuke.groovy.sandbox.impl.Checker$checkedCall.callStatic(Unknown Source)
+        at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallStatic(CallSiteArray.java:50)
+        at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callStatic(AbstractCallSite.java:157)
+        at Script1.slaveAccessible(Script1.groovy:72)
+        at Script1$slaveAccessible.call(Unknown Source)
+        at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCall(CallSiteArray.java:42)
+        at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:108)
+        at org.kohsuke.groovy.sandbox.impl.Checker$1.call(Checker.java:151)
+        at org.kohsuke.groovy.sandbox.GroovyInterceptor.onMethodCall(GroovyInterceptor.java:21)
+        at org.jenkinsci.plugins.scriptsecurity.sandbox.groovy.SandboxInterceptor.onMethodCall(SandboxInterceptor.java:115)
+        at org.kohsuke.groovy.sandbox.impl.Checker$1.call(Checker.java:149)
+        at org.kohsuke.groovy.sandbox.impl.Checker.checkedCall(Checker.java:146)
+        at org.kohsuke.groovy.sandbox.impl.Checker$checkedCall.callStatic(Unknown Source)
+        at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallStatic(CallSiteArray.java:50)
+        at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callStatic(AbstractCallSite.java:157)
+        at Script1.run(Script1.groovy:87)
+        at org.jenkinsci.plugins.scriptsecurity.sandbox.groovy.GroovySandbox.run(GroovySandbox.java:141)
+        at org.jenkinsci.plugins.scriptsecurity.sandbox.groovy.SecureGroovyScript.evaluate(SecureGroovyScript.java:163)
+        at hudson.plugins.groovy.SystemGroovy.run(SystemGroovy.java:95)
+        at hudson.plugins.groovy.SystemGroovy.perform(SystemGroovy.java:59)
+        at hudson.tasks.BuildStepMonitor$1.perform(BuildStepMonitor.java:20)
+        at hudson.model.AbstractBuild$AbstractBuildExecution.perform(AbstractBuild.java:776)
+        at hudson.model.Build$BuildExecution.build(Build.java:203)
+        at hudson.model.Build$BuildExecution.doRun(Build.java:160)
+        at hudson.model.AbstractBuild$AbstractBuildExecution.run(AbstractBuild.java:536)
+        at hudson.model.Run.execute(Run.java:1738)
+        at hudson.model.FreeStyleBuild.run(FreeStyleBuild.java:43)
+        at hudson.model.ResourceController.execute(ResourceController.java:98)
+        at hudson.model.Executor.run(Executor.java:381)
+    Build step 'Execute system Groovy script' marked build as failure
+</code></pre></li>
+<li><p class="first">It worked quite well on Jun/17/2017, then I might have miss check the
+groovy sandbox checkbox or something, it failed to work.</p>
+</li>
+<li><p class="first">As expained by the author,
+<a class="reference external" href="http://groovy-sandbox.kohsuke.org/">kohsuke</a>, groovy sandbox
+can't create threads.</p>
+<pre><code>
+You can register multiple interceptors, but they are all local to a thread. This allows multi-threaded applications to isolate execution properly, but it also means you cannot let the sandbox script create threads, or else it'll escape the sandbox.
+The easiest way to do this is to ensure you prohibit the use of Thread as the receiver, and prevent the sandboxed script from accessing Executor-like services that let closures executed on different threads.
+</code></pre></li>
+<li><p class="first">Anyway, I am still not so sure about why it changed, did I check the
+checkbox</p>
+</li>
+<li><p class="first">Alternatively, I can use python script to check the status of slaves,
+but I can't get the enviroment vars on slave like what the groovy
+script can do.</p>
+</li>
+<li><p class="first">I can also create a jenkins job to run ls on each slave every five
+minute, if fails, then slave is down. or not, nobody knows, that's
+the problem without configration management.</p>
+</li>
+<li><p class="first">I intended to control jenkins with ansible, and use git as scm for
+ansible playbook.</p>
+</li>
+<li><p class="first">Before figuring out how to organize the playbook, I just init the
+jenkins home with git and it helps.</p>
+</li>
+<li><p class="first">Our virtual server engineer decided to migrate our new applied three
+vms to another host with different IPs, which means whitelist to our
+backend authorization server Crowd won't work anymore, and I have to
+use jenkins' own database as security backend.</p>
+</li>
+<li><p class="first">Without git I would have to modify config.xml manually, and re-add a
+new admin user, with git I only have to checkout. What's more when
+crowd whitelist works again, I only need another checkout to redo the
+configuration.</p>
+</li>
+<li><p class="first">But the problem is Jenkins is UI orentaed, at least now, there are
+quite a few things you can't manage with code, maybe you are OK with
+xml, which is really a PITA. Every time you make change through the
+jenkins ui, such as in project based matrix authorization strategy,
+you have add one user or group, you have to commit those changes in
+git, and then copy correspond files back to ansible, not only add to
+the complexity but also error prone.</p>
+</li>
+<li><p class="first">Some people prefer to auto commit, might be stupid, but work. Take a
+look at SCM Sync configuration plugin if you really want this.</p>
+</li>
+</ul>
+<p><strong>Groovy is the key</strong></p>
+<ol class="arabic simple">
+<li>A month later, I found out groovy is the key to all the closed doors,
+credential, security, extension, whatever in jenkins, we can control
+and automate with groovy.</li>
+</ol>
+<p><strong>Project Management is the core</strong></p>
+<ol class="arabic simple">
+<li>In fact, Jenkins is just a tool, what we expect is to get projects in
+control, put our productions in the market as fast and smoothly as
+possible, bring the money back.</li>
+<li>Coorpration and communication between teams decide whether Jenkins is
+easy to maintain or not.</li>
+</ol>
+</div>
+</div>
+<div class="section" id="section-2">
+<h2>Section 2</h2>
+<div class="section" id="id1">
+<span id="current-prolems-in-our-jenkins"></span><h3>Current Prolems in our jenkins.</h3>
+<p><strong>No idea what is the expected status</strong></p>
+<ol class="arabic simple">
+<li>The server has been up for serveral years, ops come and go.</li>
+<li>What projects are expected to be running.</li>
+<li>What failure are abnormal.</li>
+<li>Which jobs are deprecated now, is it safe to remove them.</li>
+<li>There is no problem just because we don't know them exist and they
+do. Such as there are lots of pull stash failure in jenkins logs, I
+thought it was caused by unstable stash and network, it turned out to
+be our misconfiguration.</li>
+<li>Which jobs are disabled, should they, why? Can we delete them?</li>
+</ol>
+<p><strong>Loose project authorization</strong></p>
+<ol class="arabic simple" start="2">
+<li>Project team misconfigure the job to be configure by anonymous user.</li>
+<li>More than one person can configure the jobs, changes not tracked.
+Project team will come to ops for help, but no log or any clue, we
+might be able to solve them with experience and luck, maybe not.</li>
+<li>Some projcet teams expose their password or other critical date in
+build, and anonymous can see that.</li>
+</ol>
+<p><strong>Configuration untracked</strong></p>
+<ol class="arabic simple" start="2">
+<li>If we are to migrate some jobs to another server, or a new server
+need parts of the original credentials, it would be a tedious and
+error-prone job.</li>
+<li>Outdated and incomplete docs can't provide you all the infomation.
+e.g. you might find it hard to list all the credentials with out some
+groovy scripting experience, and you may not know what each
+credential is for.</li>
+<li>One day, one of our view miss two jobs, someone must have
+accidentally uncheck them, who did this? How to recover? What if they
+delete them?</li>
+</ol>
+<p><strong>No monitoring</strong></p>
+<ol class="arabic simple" start="3">
+<li>We do not only need monitor in prod env, dev env are critical
+sometimes.</li>
+<li>Diskspace were eaten up on both slaves and master, and builds fail.</li>
+<li>We can't calculate the resource utilization and have no disaster
+preparedness for capacity outage. Are all these slaves neccessary?
+Are they enough?</li>
+</ol>
+<p><strong>Deployment manually</strong></p>
+<ol class="arabic simple">
+<li>We installed jenkins, then generated ssh keys, then deploy aws, and
+also create a backup dir... All these things are not documented, what
+if we are to do it once again? What if we are do split jobs when old
+jenkins are set to be retired? How long will it take for us to do it,
+what might be lost?</li>
+</ol>
+  <pre><code>
+[root@test-alex jenkins]# ls -a |grep  "^\."
+.
+..
+.aws
+.gconf
+.git
+.java
+.owner
+.pki
+.ssh
+.subversion
+.viminfo
+  </code></pre><ol class="arabic simple" start="2">
+<li>We do also have a couple of slaves, either ops or project teams are
+going to waste quite a lot of time deploy them.</li>
+<li>On a shared slave, changes might breake other jobs, and we have no
+idea.</li>
+<li>I installed 3 Win10 SDKs on 4 windows slaves last friday, it costed
+more than one hour and wasted lots of attention. What's worse, if we
+are to deploy a new slave, we have to do it again, what's much more
+worse, we wouldn't remember to install it, until another ticket
+comes.</li>
+<li>Mac slaves and windows slave are started with jnlp, we have to log in
+the servers to restart slave process.</li>
+</ol>
+<p><strong>Backup and restore might fail</strong></p>
+<ol class="arabic simple">
+<li>Thin backup, the most widely used backup plugin for jenkins fail to
+work as they are outdated and not efficient.</li>
+<li>I wrote a python script to backup all configrations and plugins, they
+are supposed to works well if we can setup a same version jenkins.
+But jenkins are too old now, and some plugins are deprecated now and
+with severe security problem.
+<a class="reference external" href="https://jenkins.io/security/advisories/">Vulnerabilities</a></li>
+<li>As I mentioned in the beginning, we are not so sure what to expect,
+we don't know if the restoration is successful or not until someone
+report a problem.</li>
+</ol>
+<p><strong>Outdated jenkins and outdated plugins</strong></p>
+<ol class="arabic simple">
+<li>Jenkins publish LTS versions every 12 weeks, and they update quite
+frequently. Mobilejenkins was published on 2015-07-28.</li>
+<li>We can't update jenkins as it might break plugin dependency.</li>
+<li>Plugin are outdated and with lots of bugs. Such as,
+multi-branch-project-plugin is still v0.3, and jenkins api don't work
+very well with it, we can't get all mutil branches projects from
+remote api, though I managed to walk around this.
+[Sample](<a class="reference external" href="http://www.alexrhino.net/work/">http://www.alexrhino.net/work/</a>
+jenkins/2017/06/15/jenkins-in-work.html)</li>
+<li>Outdated plugins make it hard to configure jobs programatically. e.g.
+We cause too much load on both stash and crowd, and all job scm
+polling strategies need to be updated, as multi-bran-project is
+outdated, it doesn't support change syncbranchtriggers with groovy. I
+have to change the job configure.xml directly and reload them.
+[Multibrach](<a class="reference external" href="https://github.com/jenkinsci/">https://github.com/jenkinsci/</a>
+multi-branch-project-plugin/tree/multi-branch-project-plugin-0.3/src/main/java/
+com/github/mjdetullio/jenkins/plugins/multibranch) had class
+SyncBranchesTriggers on v0.3, then it was removed after v0.4.</li>
+<li>We decide to update one downstream project and add two parameters,
+and use upstream job name and branch to limite the scope of rsync
+command, sync specific sub-directory, it would be much easier with
+pipeline. Or if all the jobs are controlled with dsl seed job, we
+could update all jobs with code and roll back when fail. Now, I have
+to wrap rsync with python script, and test with great care.</li>
+<li>Our allure plugin is quite old and is not compatable with allure 1.5
+on ubuntu slave, qa encountered the problem and come to us seeking
+for help. If they decide 1.5 is a must for new projcet, what should
+we do?</li>
+<li>New jenkins requires Java 8, older os has not.</li>
+</ol>
+<p><strong>HA</strong></p>
+<ol class="arabic simple">
+<li>No HA solution for jenkins shared on the Internet now.</li>
+<li>If we set multi masters, they can't share the slaves.</li>
+<li>If jenkins server is totally down, or network outage occurs, we have
+to wait</li>
+<li>Even if we have another jenkins server standby, if they are in the
+same datacenter, we still have to wait when network outage occurs.</li>
+</ol>
+</div>
+</div>
+<div class="section" id="ideal-solution-imho">
+<h2>Ideal Solution(IMHO)</h2>
+<ol class="arabic simple">
+<li>Two jenkins servers, one master and one standby. 2. Switch master A
+and master B every one week or one month and upgrade one of them. So
+we can keep plugin updated and jenkins off security risks. 3. Sync
+jenkins home with rsync. 4. Jenkins congfiguration in git. So we know
+what has been changed and easy to rollback. 5. Ansible playbook push
+every half an hour. If we lost git record, or if we plan to migrate
+part of the configration to another server, one we don't have to deal
+with xml files. 6. All jobs are controlled with dsl seed job and
+pipeline.</li>
+<li>Slave are all controlled with configuration management software
+including windows server, all changes are tracked, all software are
+in control. Ansible playbook push every half an hour.</li>
+<li>A monitor server to check disk space, load or slave status, zabbix or
+nagios or ...</li>
+<li>Status report, we need to track build and build fail every day, so we
+know if the upgrade fails. Or if the build fail is caused by jenkins
+master itself.</li>
+<li>Liaison for each project or each job.</li>
+<li>If he/she make the changes, notify us with email.</li>
+<li>The best standard for a perfect jenkins server is all builds succeed.</li>
+</ol>
+</div>
+<div class="section" id="migration-is-a-dillema">
+<h2>Migration is a dillema</h2>
+<ol class="arabic simple">
+<li>If we upgrade jenkins, anything may happend due to incompatibility.</li>
+<li>If not, we can't control all jobs with better pipeline or scripts,
+and expose to security risks.</li>
+<li>We don't know what to expect, then we don't know how to verify it
+works.</li>
+<li>Jenkins masters can't share slaves. No resources to test and waste.</li>
+<li>One project rely on another. We can't migrate or test just one job.</li>
+</ol>
+</div>
+<div class="section" id="tricky-problem-and-my-trick">
+<h2>Tricky problem and my trick</h2>
+<p><strong>Update all freestyle-multi-branch-job sync branches trigger from
+hourly to daily.</strong></p>
+<p>1 Why we made the change:</p>
+<ul class="simple">
+<li>Polling is inefficient</li>
+<li>Here is a popular
+[post](<a class="reference external" href="http://kohsuke.org/2011/12/01/">http://kohsuke.org/2011/12/01/</a>
+polling-must-die-triggering-jenkins-builds-from-a-git-hook/) talk
+about it</li>
+<li>Polling is hammering both our bitbucket server and crowd server</li>
+<li>Previously many of our jenkins jobs are set to poll every 10 minutes
+or so, which brought to much unnecessary load on bitbucket server,
+caused it to crash eventually.</li>
+<li>Nearly all our git repos are set to use https instead of ssh, that
+means, every time we poll, jenkins will ask crowd server for
+authentication. (Crowd server stores all our domain username and
+password, it is an authentication server)</li>
+</ul>
+<ol class="arabic simple">
+<li>Steps</li>
+</ol>
+<ul class="simple">
+<li>Find it it have api, read the source code
+[source](<a class="reference external" href="https://github.com/">https://github.com/</a>
+jenkinsci/multi-branch-project-plugin/tree/multi-branch-project-plugin-0.3/src/
+main/java/com/github/mjdetullio/jenkins/plugins/multibranch)</li>
+<li>we use multi-branch-project-plugin v0.3, with not api to set
+syncbranchestrigger, though we can read it.</li>
+<li>Test with one job, see what changes in the xml configure file. Just
+one line.</li>
+<li>Use git track all configuration xmls, so we can rollback in disaster.</li>
+<li>Use a python script to list all the xml, and track with pygit2</li>
+<li>Change the xml file directly, and reload the job from disk, check if
+it works.</li>
+<li>Write a python script to change all the xml, and a groovy script to
+reload all jobs.</li>
+<li>Check git diff, everything work as expected.</li>
+</ul>
+<p><strong>Trigger jenkins from stash/bitbucket</strong></p>
+<ol class="arabic simple">
+<li>As we turn the polling frequency lower, jobs can't build in time, an
+ideal process is when the commit finish, test starts, that why we
+need remote trigger.</li>
+<li>With git hook, it is easy, with stash, pain in the ass.</li>
+<li>We have a very old jenkins, and stash is controlled by another team,
+we can't debug, install plugin, even we could, it takes a lot of
+time.</li>
+<li>First I tested the <em>Bitbucket Server Webhook to Jenkins</em> which has
+already been installed in our stash server.</li>
+<li>It always give me following errors.</li>
+</ol>
+<pre><code>
+No git jobs using repository: http://192.168.33.71:7990/scm/tes/test\_jenkins\_hook.git and branches: release/test1
+No Git consumers using SCM API plugin for: http://192.168.33.71:7990/scm/tes/test_jenkins_hook.git
+</code></pre><ol class="arabic simple">
+<li>I have not idea what it means, after rtfm, and a lot of search in
+jenkins jira, I began to read the code.</li>
+<li>After I was sure that what the plugin really does is to call git
+commit, I knew something is wrong with the http request or our old
+git plugin.</li>
+<li>But I have no access to bitbucket server, I have no idea what it
+post or request.</li>
+<li>Then I install a bitbucket server for evaluation and test, but I am
+not sure different versions of plugin and server send the same
+request.</li>
+<li>I decide to capture the packets, and got the request data, we use
+http, so that is easy.</li>
+<li>Then I found out that branch specifier with prefix ** can be
+triggered, those without can't. Weird.</li>
+<li>Read the git plugin source code again, and found out ** or
+'origin' is a must to be matched.</li>
+<li>But multi-branch-project-plugin auto-generate the subproject with no
+prefix at all. Shit.</li>
+<li>I have to test another webhook plugin, sadly, it is not compatible
+old plugin on our jenkins server, we could decode it as the json
+load format has changed.</li>
+<li>In short, multi-branch-project-plugin auto-generated sub project
+won't be triggered by stash hook. We can do nothing.</li>
+<li>Thanks god, I fould another jenkins plugin call generic webhook that
+can decode any json request and extract them in env variables.</li>
+<li>Sadly, our old jenkins doesn't support this plugin.</li>
+<li>Luckly, our new jenkins can. So I create a job, and extract the
+webhook notification, and use a python script to check if it belongs
+to a multi-branch-project, if so, it will trigger a groovy job on
+older jenkins.</li>
+<li>The groovy job on older jenkins does two things, first, sync
+branches, second add prefix in new sub-project's branch specifier.</li>
+<li>Job done, what a trick.</li>
+<li>But that's not over, what if the network between to jenkins server
+is down. What if jenkins doesn't recieve the hook notification.</li>
+<li>How to tell the code commit, new branches have been synced, or have
+not been synced. Does the build starts?</li>
+<li><a class="reference external" href="https://github.com/mohamicorp/stash-jenkins-postreceive-webhook/issues/147">Bitbucket
+webhook</a></li>
+<li><a class="reference external" href="https://confluence.atlassian.com/bitbucket/event-payloads-740262817.html#EventPayloads-Merged">Payload
+format</a></li>
+<li><a class="reference external" href="https://stackoverflow.com/questions/46092903/bitbucket-server-webhook-to-jenkins-error-jenkins-response-no-git-jobs-using">Still the god damn
+plugin</a></li>
+</ol>
+<p><strong>Culture Is More importance</strong></p>
+<ol class="arabic simple">
+<li>Three month has passed, my jenkins is not that better than what it
+was.</li>
+<li>I suggest dev team use pipeline instead of freestyle job, they
+refuse as it is really a new thing, new team member ask for a new
+job creation just to finish his/her job, they don't care it is
+freestyle or pipeline, it is bash or python, just get the job done
+quickly.</li>
+<li>I put all views in seed job, developers find it hard to add their
+own job in the view, they just don't wanna ask us to add it.</li>
+<li>As in a shared environment, some people create a job and then
+another, after serveral days test, all build fails. they forget
+about it, but the cron is still going.</li>
+<li>I sent a long email to explian why polling strategy is not suitable
+and asked them to add a simple webhook in stash to trigger the job.
+Only several team did that.</li>
+<li>Some team has login permission on slaves now, it is hard to take it
+back.</li>
+<li>Even though I setup saltstack for slaves, time is needed to write
+states for windows and macos controlling, my skill is the main
+limit.</li>
+<li>Technical debt is to heavy, I try to upgrade jenkins every weeky to
+a newer version, as it is two year older now. But our job are
+created with old plugins, nobody wants to update them as long as
+they works just fine. Our windows slaves are started with different
+users, I spent two days tracked a shared disk mount error because of
+that. I don't know what is expecting me next.</li>
+<li>Good news is as I turned on compress log plugin for all jobs, in
+less than two months I will have enough space to do the backup, such
+a sad story.</li>
+<li>We all know that rules, standards are neccessary, but how to
+convince people follow them is another problem, as developers and
+ops have quite an different attitude towards management and
+flexibility, and people are so resistant to new rules and new
+technology.</li>
+</ol>
+<p><strong>If you want automation, don't miss components</strong></p>
+<ol class="arabic simple">
+<li>We are still copy our artifacts to an large shared disk, and someone
+wrote a small php site to provide access to those apks, or zips. A
+professinal artifact management system is clearly better. <a class="reference external" href="http://binary-repositories-comparison.github.io/">Binary
+repository manager
+comparasion</a></li>
+</ol>
+</div>
+
+    </article>
+    <section class="post-nav">
+        <div id="left-page">
+            <div id="left-link">
+                <div id="left-arrow"><i class="fa fa-chevron-circle-left"></i></div>
+                <a href="/Another-Man-Leaves-The-Team.html"> Another Man Leaves The Team</a>
+            </div>
+        </div>
+        <div id="right-page">
+            <div id="right-link">
+                <a href="/Task-List.html">Task List </a>
+                <div id="right-arrow"><i class="fa fa-chevron-circle-right"></i></div>
+            </div>
+        </div>
+    </section>
+    <div>
+    </div>
+</main>
+    <footer>
+        <h6>
+            Copyright &copy 2018
+- Alex Rhino | Rendered by <a href="http://getpelican.com/">Pelican</a> |
+            Powered by <a href="http://python.org">Python</a>
+        </h6>
+    </footer>
+</div>
+</body>
+</html>

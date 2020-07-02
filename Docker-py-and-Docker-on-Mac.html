@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>AlexRhino - Docker-py and Docker on Mac</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css"/>
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab|Ruda"/>
+        <link rel="stylesheet" type="text/css" href="/theme/css/main.css"/>
+
+<meta name="tags" content="Devops" />
+</head>
+<body>
+<style>.github-corner:hover .octo-arm {
+    animation: octocat-wave 560ms ease-in-out
+}
+@keyframes octocat-wave {
+    0%, 100% {
+        transform: rotate(0)
+    }
+    20%, 60% {
+        transform: rotate(-25deg)
+    }
+    40%, 80% {
+        transform: rotate(10deg)
+    }
+}
+@media (max-width: 500px) {
+    .github-corner:hover .octo-arm {
+        animation: none
+    }
+
+    .github-corner .octo-arm {
+        animation: octocat-wave 560ms ease-in-out
+    }
+}</style><div id="container">
+    <header>
+        <h1><a href="/">AlexRhino</a></h1>
+            <ul class="social-media">
+                    <li><a href="#"><i class="fa fa-You can add links in your config file fa-lg" aria-hidden="true"></i></a></li>
+                    <li><a href="#"><i class="fa fa-Another social link fa-lg" aria-hidden="true"></i></a></li>
+            </ul>
+        <p><em></em></p>
+    </header>
+    <nav>
+        <ul>
+                    <li><a href="/category/devops.html"> devops </a></li>
+                    <li><a                         class="active" href="/category/post.html"> post </a></li>
+                    <li><a href="/pages/My favorite line.html">About Me</a>
+                    </li>
+        </ul>
+    </nav>
+<main>
+    <article>
+        <h2>Docker-py and Docker on Mac</h2>
+        
+        <aside>
+            <ul>
+                <li>
+                    <time datetime="2016-11-01 13:00:20+00:00">Nov 01, 2016</time>
+                </li>
+                <li>
+                    <time datetime="2016-11-01 13:00:20+00:00">Modified
+                        on Nov 01, 2016</time>
+                </li>
+                <li>9 min read</li>
+                <li>
+                    Categories:
+                    <a href="/category/post.html"><em>post</em></a>
+                </li>
+                <li>
+                    Tags:
+                    <a href="/tag/devops.html"><em>#Devops</em></a>
+                </li>
+            </ul>
+        </aside>
+        <p>Docker toolbox on mac use https instead of unix socket, we have to make
+some change to get salt-dockerng work.</p>
+<ul class="simple">
+<li>Install docker on mac with docker toolbox.</li>
+</ul>
+<ol class="arabic simple">
+<li><a class="reference external" href="https://www.docker.com/products/docker-toolbox">https://www.docker.com/products/docker-toolbox</a></li>
+<li>Follow the tutorial
+<a class="reference external" href="https://docs.docker.com/toolbox/toolbox_install_mac/">https://docs.docker.com/toolbox/toolbox_install_mac/</a></li>
+<li>However, Docker Quickstart Terminal failed to execute.</li>
+<li>Don't worry, run /Applications/Docker/Docker\ Quickstart\
+Terminal.app/Contents/Resources/Scripts/start.sh to create the docker
+machine.</li>
+<li>By default, the docker machine is created with tls.</li>
+<li>Don't forget to run eval $(docker-machine env default)</li>
+<li>Run docker info and docker ps -a and docker run hello-world to check
+if it works</li>
+</ol>
+<ul class="simple">
+<li>But you can't use saltstack to manage it, cause saltstack use
+dockerng and dockerng use docker-py. But dockerng won't call
+docker.client with tls.</li>
+<li>First, dockerng don't know the base_url, it will use
+unix://var/run/docker.sock</li>
+</ul>
+<pre><code>
+  BEI-mzzha01-Mac:~ mzzhang$ docker-machine env
+  export DOCKER_TLS_VERIFY="1"
+  export DOCKER_HOST="tcp://192.168.99.100:2376"
+  export DOCKER_CERT_PATH="/Users/mzzhang/.docker/machine/machines/default"
+  export DOCKER_MACHINE_NAME="default"
+  # Run this command to configure your shell:
+  # eval $(docker-machine env)
+  BEI-mzzha01-Mac:~ mzzhang$
+  BEI-mzzha01-Mac:~ mzzhang$ sudo salt-call dockerng.images
+  [DEBUG   ] Configuration file path: /etc/salt/minion
+  [WARNING ] Insecure logging configuration detected! Sensitive data may be logged.
+  [DEBUG   ] Reading configuration from /etc/salt/minion
+  [DEBUG   ] Please install 'virt-what' to improve results of the 'virtual' grain.
+  [WARNING ] /opt/salt/lib/python2.7/site-packages/salt/grains/core.py:1493: DeprecationWarning: The "osmajorrelease" will be a type of an integer.
+  [DEBUG   ] Determining pillar cache
+  [DEBUG   ] LazyLoaded jinja.render
+  [DEBUG   ] LazyLoaded yaml.render
+  [DEBUG   ] LazyLoaded jinja.render
+  [DEBUG   ] LazyLoaded yaml.render
+  [DEBUG   ] LazyLoaded config.get
+  [DEBUG   ] Trying paths: ['/Users/mzzhang/.docker/config.json', '/Users/mzzhang/.dockercfg']
+  [DEBUG   ] No config file found
+  [DEBUG   ] LazyLoaded dockerng.images
+  [DEBUG   ] Trying paths: ['/Users/mzzhang/.docker/config.json', '/Users/mzzhang/.dockercfg']
+  [DEBUG   ] No config file found
+  [ERROR   ] An un-handled exception was caught by salt's global exception handler:
+  DockerException: Error while fetching server API version: ('Connection aborted.', error(2, 'No such file or directory'))
+  Traceback (most recent call last):
+    File "/opt/salt/bin/salt-call", line 11, in `<`module`>`
+      salt_call()
+    File "/opt/salt/lib/python2.7/site-packages/salt/scripts.py", line 352, in salt_call
+      client.run()
+    File "/opt/salt/lib/python2.7/site-packages/salt/cli/call.py", line 58, in run
+      caller.run()
+    File "/opt/salt/lib/python2.7/site-packages/salt/cli/caller.py", line 134, in run
+      ret = self.call()
+    File "/opt/salt/lib/python2.7/site-packages/salt/cli/caller.py", line 197, in call
+      ret['return'] = func(*args, **kwargs)
+    File "/opt/salt/lib/python2.7/site-packages/salt/modules/dockerng.py", line 2059, in images
+      response = _client_wrapper('images', all=kwargs.get('all', False))
+    File "/opt/salt/lib/python2.7/site-packages/salt/modules/dockerng.py", line 632, in wrapper
+      _get_client(timeout=client_timeout)
+    File "/opt/salt/lib/python2.7/site-packages/salt/modules/dockerng.py", line 742, in _get_client
+      __context__['docker.client'] = docker.Client(**client_kwargs)
+    File "/opt/salt/lib/python2.7/site-packages/docker/client.py", line 99, in __init__
+      self._version = self._retrieve_server_version()
+    File "/opt/salt/lib/python2.7/site-packages/docker/client.py", line 124, in _retrieve_server_version
+      'Error while fetching server API version: {0}'.format(e)
+  DockerException: Error while fetching server API version: ('Connection aborted.', error(2, 'No such file or directory'))
+  Traceback (most recent call last):
+    File "/opt/salt/bin/salt-call", line 11, in `<`module`>`
+      salt_call()
+    File "/opt/salt/lib/python2.7/site-packages/salt/scripts.py", line 352, in salt_call
+      client.run()
+    File "/opt/salt/lib/python2.7/site-packages/salt/cli/call.py", line 58, in run
+      caller.run()
+    File "/opt/salt/lib/python2.7/site-packages/salt/cli/caller.py", line 134, in run
+      ret = self.call()
+    File "/opt/salt/lib/python2.7/site-packages/salt/cli/caller.py", line 197, in call
+      ret['return'] = func(*args, **kwargs)
+    File "/opt/salt/lib/python2.7/site-packages/salt/modules/dockerng.py", line 2059, in images
+      response = _client_wrapper('images', all=kwargs.get('all', False))
+    File "/opt/salt/lib/python2.7/site-packages/salt/modules/dockerng.py", line 632, in wrapper
+      _get_client(timeout=client_timeout)
+    File "/opt/salt/lib/python2.7/site-packages/salt/modules/dockerng.py", line 742, in _get_client
+      __context__['docker.client'] = docker.Client(**client_kwargs)
+    File "/opt/salt/lib/python2.7/site-packages/docker/client.py", line 99, in __init__
+      self._version = self._retrieve_server_version()
+    File "/opt/salt/lib/python2.7/site-packages/docker/client.py", line 124, in _retrieve_server_version
+      'Error while fetching server API version: {0}'.format(e)
+  docker.errors.DockerException: Error while fetching server API version: ('Connection aborted.', error(2, 'No such file or directory'))
+</code></pre><ul class="simple">
+<li>Let's first solve this by setting up some pillar</li>
+</ul>
+<pre><code>
+    BEI-mzzha01-Mac:~ mzzhang$ ll /srv/pillar/
+    total 16
+    -rw-r--r--  1 root  wheel    61B Nov  1 15:55 data.sls
+    -rw-r--r--  1 root  wheel    24B Nov  1 13:51 top.sls
+    BEI-mzzha01-Mac:~ mzzhang$ cat /srv/pillar/top.sls
+    base:
+      '*':
+        - data
+    BEI-mzzha01-Mac:~ mzzhang$ cat /srv/pillar/data.sls
+    docker.url: tcp://192.168.99.100:2376
+    docker.version: 1.12.3
+    BEI-mzzha01-Mac:~ mzzhang$
+</code></pre><ul class="simple">
+<li>Then you will receive the connection error caused by tls</li>
+</ul>
+<pre><code>
+    BEI-mzzha01-Mac:~ mzzhang$ sudo salt-call dockerng.images
+    [DEBUG   ] Configuration file path: /etc/salt/minion
+    [WARNING ] Insecure logging configuration detected! Sensitive data may be logged.
+    [DEBUG   ] Reading configuration from /etc/salt/minion
+    [DEBUG   ] Please install 'virt-what' to improve results of the 'virtual' grain.
+    [WARNING ] /opt/salt/lib/python2.7/site-packages/salt/grains/core.py:1493: DeprecationWarning: The "osmajorrelease" will be a type of an integer.
+    [DEBUG   ] Determining pillar cache
+    [DEBUG   ] LazyLoaded jinja.render
+    [DEBUG   ] LazyLoaded yaml.render
+    [DEBUG   ] compile template: /srv/pillar/top.sls
+    [DEBUG   ] Jinja search path: ['/srv/pillar', '/srv/spm/pillar']
+    [PROFILE ] Time (in seconds) to render '/srv/pillar/top.sls' using 'jinja' renderer: 0.00311303138733
+    [DEBUG   ] Rendered data from file: /srv/pillar/top.sls:
+    base:
+      '*':
+        - data
+    [DEBUG   ] LazyLoaded config.get
+    [DEBUG   ] Results of YAML rendering:
+    OrderedDict([('base', OrderedDict([('*', ['data'])]))])
+    [PROFILE ] Time (in seconds) to render '/srv/pillar/top.sls' using 'yaml' renderer: 0.00504183769226
+    [DEBUG   ] compound_match: bei-mzzha01-mac.corp.kabam.com ? *
+    [DEBUG   ] compound_match bei-mzzha01-mac.corp.kabam.com ? "*" => "True"
+    [DEBUG   ] compile template: /srv/pillar/data.sls
+    [DEBUG   ] Jinja search path: ['/srv/pillar', '/srv/spm/pillar']
+    [PROFILE ] Time (in seconds) to render '/srv/pillar/data.sls' using 'jinja' renderer: 0.000880002975464
+    [DEBUG   ] Rendered data from file: /srv/pillar/data.sls:
+    docker.url: tcp://192.168.99.100:2376
+    docker.version: 1.12.3
+    [DEBUG   ] Results of YAML rendering:
+    OrderedDict([('docker.url', 'tcp://192.168.99.100:2376'), ('docker.version', '1.12.3')])
+    [PROFILE ] Time (in seconds) to render '/srv/pillar/data.sls' using 'yaml' renderer: 0.000732898712158
+    [DEBUG   ] LazyLoaded jinja.render
+    [DEBUG   ] LazyLoaded yaml.render
+    [DEBUG   ] LazyLoaded config.get
+    [DEBUG   ] Trying paths: ['/Users/mzzhang/.docker/config.json', '/Users/mzzhang/.dockercfg']
+    [DEBUG   ] No config file found
+    [INFO    ] Starting new HTTP connection (1): 192.168.99.100
+    [DEBUG   ] LazyLoaded dockerng.images
+    [INFO    ] Starting new HTTP connection (2): 192.168.99.100
+    Traceback (most recent call last):
+      File "/opt/salt/lib/python2.7/site-packages/salt/cli/caller.py", line 197, in call
+        ret['return'] = func(*args, **kwargs)
+      File "/opt/salt/lib/python2.7/site-packages/salt/modules/dockerng.py", line 2059, in images
+        response = _client_wrapper('images', all=kwargs.get('all', False))
+      File "/opt/salt/lib/python2.7/site-packages/salt/modules/dockerng.py", line 633, in wrapper
+        return wrapped(*args, **salt.utils.clean_kwargs(**kwargs))
+      File "/opt/salt/lib/python2.7/site-packages/salt/modules/dockerng.py", line 917, in _client_wrapper
+        raise CommandExecutionError(msg)
+    CommandExecutionError: Unable to perform images: ('Connection aborted.', BadStatusLine('\x15\x03\x01\x00\x02\x02\n',))
+    Error running 'dockerng.images': Unable to perform images: ('Connection aborted.', BadStatusLine('\x15\x03\x01\x00\x02\x02\n',))
+    BEI-mzzha01-Mac:~ mzzhang$
+</code></pre><ul class="simple">
+<li>As dockerng.py call docker.client directly without tls args, we can
+modify the dockerng.py or docker.client.py. I will do the latter.</li>
+</ul>
+<pre><code>
+    /opt/salt/lib/python2.7/site-packages/docker/client.py
+     41     def __init__(self, base_url=None, version=None,
+     42                  timeout=constants.DEFAULT_TIMEOUT_SECONDS, tls=False,
+     43                  user_agent=constants.DEFAULT_USER_AGENT,
+     44                  num_pools=constants.DEFAULT_NUM_POOLS):
+     45         super(Client, self).__init__()
+     46
+     +47         tls = TLSConfig(
+     +48                   client_cert=('/Users/mzzhang/.docker/machine/machines/default/cert.pem', '/Users/mzzhang/.docker/machine/machines/default/key.pem')
+     +49                 )
+     50
+     51         if tls and not base_url:
+     52             raise errors.TLSParameterError(
+     53                 'If using TLS, the base_url argument must be provided.'
+     54             )
+</code></pre><ul class="simple">
+<li>Now it works fine</li>
+</ul>
+<pre><code>
+    BEI-mzzha01-Mac:~ mzzhang$ sudo salt-call dockerng.images
+    [DEBUG   ] Configuration file path: /etc/salt/minion
+    [WARNING ] Insecure logging configuration detected! Sensitive data may be logged.
+    [DEBUG   ] Reading configuration from /etc/salt/minion
+    [DEBUG   ] Please install 'virt-what' to improve results of the 'virtual' grain.
+    [WARNING ] /opt/salt/lib/python2.7/site-packages/salt/grains/core.py:1493: DeprecationWarning: The "osmajorrelease" will be a type of an integer.
+    [DEBUG   ] Determining pillar cache
+    [DEBUG   ] LazyLoaded jinja.render
+    [DEBUG   ] LazyLoaded yaml.render
+    [DEBUG   ] compile template: /srv/pillar/top.sls
+    [DEBUG   ] Jinja search path: ['/srv/pillar', '/srv/spm/pillar']
+    [PROFILE ] Time (in seconds) to render '/srv/pillar/top.sls' using 'jinja' renderer: 0.00328183174133
+    [DEBUG   ] Rendered data from file: /srv/pillar/top.sls:
+    base:
+      '*':
+        - data
+    [DEBUG   ] LazyLoaded config.get
+    [DEBUG   ] Results of YAML rendering:
+    OrderedDict([('base', OrderedDict([('*', ['data'])]))])
+    [PROFILE ] Time (in seconds) to render '/srv/pillar/top.sls' using 'yaml' renderer: 0.00501489639282
+    [DEBUG   ] compound_match: bei-mzzha01-mac.corp.kabam.com ? *
+    [DEBUG   ] compound_match bei-mzzha01-mac.corp.kabam.com ? "*" => "True"
+    [DEBUG   ] compile template: /srv/pillar/data.sls
+    [DEBUG   ] Jinja search path: ['/srv/pillar', '/srv/spm/pillar']
+    [PROFILE ] Time (in seconds) to render '/srv/pillar/data.sls' using 'jinja' renderer: 0.00095009803772
+    [DEBUG   ] Rendered data from file: /srv/pillar/data.sls:
+    docker.url: tcp://192.168.99.100:2376
+    docker.version: 1.12.3
+    [DEBUG   ] Results of YAML rendering:
+    OrderedDict([('docker.url', 'tcp://192.168.99.100:2376'), ('docker.version', '1.12.3')])
+    [PROFILE ] Time (in seconds) to render '/srv/pillar/data.sls' using 'yaml' renderer: 0.00078296661377
+    [DEBUG   ] LazyLoaded jinja.render
+    [DEBUG   ] LazyLoaded yaml.render
+    [DEBUG   ] LazyLoaded config.get
+    [DEBUG   ] Trying paths: ['/Users/mzzhang/.docker/config.json', '/Users/mzzhang/.dockercfg']
+    [DEBUG   ] No config file found
+    [INFO    ] Starting new HTTPS connection (1): 192.168.99.100
+    [WARNING ] /opt/salt/lib/python2.7/site-packages/requests/packages/urllib3/connectionpool.py:791: InsecureRequestWarning: Unverified HTTPS request is being made. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.org/en/latest/security.html
+      InsecureRequestWarning)
+    [DEBUG   ] "GET /v1.12.3/version HTTP/1.1" 200 200
+    [DEBUG   ] LazyLoaded dockerng.images
+    [WARNING ] /opt/salt/lib/python2.7/site-packages/requests/packages/urllib3/connectionpool.py:791: InsecureRequestWarning: Unverified HTTPS request is being made. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.org/en/latest/security.html
+      InsecureRequestWarning)
+    [DEBUG   ] "GET /v1.12.3/images/json?only_ids=0&all=0 HTTP/1.1" 200 890
+    [DEBUG   ] LazyLoaded nested.output
+    local:
+        ----------
+        sha256:4abee3960b42703d535d798c7d2f1050b8fe94d7a49b915f747b506e8fb78f5f:
+            ----------
+            Labels:
+                ----------
+            ParentId:
+                sha256:f753707788c5c100f194ce0a73058faae1a457774efcda6c1469544a114f8644
+            RepoDigests:
+                None
+            RepoTags:
+                - powerdns/powerdns:0.0.1
+            Size:
+                127161487
+            Size_Human:
+                121.3 MiB
+            Time_Created_Epoch:
+                1477984031
+            Time_Created_Local:
+                2016-11-01 15:07:11 CST
+            VirtualSize:
+                127161487
+            VirtualSize_Human:
+                121.3 MiB
+        sha256:c54a2cc56cbb2f04003c1cd4507e118af7c0d340fe7e2720f70976c4b75237dc:
+            ----------
+            Labels:
+                ----------
+            ParentId:
+            RepoDigests:
+                - hello-world@sha256:0256e8a36e2070f7bf2d0b0763dbabdd67798512411de4cdcf9431a1feb60fd9
+            RepoTags:
+                - hello-world:latest
+            Size:
+                1848
+            Size_Human:
+                1.8 KiB
+            Time_Created_Epoch:
+                1467401967
+            Time_Created_Local:
+                2016-07-02 03:39:27 CST
+            VirtualSize:
+                1848
+            VirtualSize_Human:
+                1.8 KiB
+        sha256:f753707788c5c100f194ce0a73058faae1a457774efcda6c1469544a114f8644:
+            ----------
+            Labels:
+                ----------
+            ParentId:
+            RepoDigests:
+                - ubuntu@sha256:2d44ae143feeb36f4c898d32ed2ab2dffeb3a573d2d8928646dfc9cb7deb1315
+            RepoTags:
+                - ubuntu:latest
+            Size:
+                127161487
+            Size_Human:
+                121.3 MiB
+            Time_Created_Epoch:
+                1476393201
+            Time_Created_Local:
+                2016-10-14 05:13:21 CST
+            VirtualSize:
+                127161487
+            VirtualSize_Human:
+                121.3 MiB
+    BEI-mzzha01-Mac:~ mzzhang$
+</code></pre>
+    </article>
+    <section class="post-nav">
+        <div id="left-page">
+            <div id="left-link">
+                <div id="left-arrow"><i class="fa fa-chevron-circle-left"></i></div>
+                <a href="/Docker-py-and-Docker-For-Mac.html"> Docker-py and Docker For Mac</a>
+            </div>
+        </div>
+        <div id="right-page">
+            <div id="right-link">
+                <a href="/Verify-Whether-SNI-IS-Turned-Off.html">Verify Whether SNI IS Turned Off </a>
+                <div id="right-arrow"><i class="fa fa-chevron-circle-right"></i></div>
+            </div>
+        </div>
+    </section>
+    <div>
+    </div>
+</main>
+    <footer>
+        <h6>
+            Copyright &copy 2018
+- Alex Rhino | Rendered by <a href="http://getpelican.com/">Pelican</a> |
+            Powered by <a href="http://python.org">Python</a>
+        </h6>
+    </footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>AlexRhino - About devops</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css"/>
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab|Ruda"/>
+        <link rel="stylesheet" type="text/css" href="/theme/css/main.css"/>
+
+<meta name="tags" content="Devops" />
+</head>
+<body>
+<style>.github-corner:hover .octo-arm {
+    animation: octocat-wave 560ms ease-in-out
+}
+@keyframes octocat-wave {
+    0%, 100% {
+        transform: rotate(0)
+    }
+    20%, 60% {
+        transform: rotate(-25deg)
+    }
+    40%, 80% {
+        transform: rotate(10deg)
+    }
+}
+@media (max-width: 500px) {
+    .github-corner:hover .octo-arm {
+        animation: none
+    }
+
+    .github-corner .octo-arm {
+        animation: octocat-wave 560ms ease-in-out
+    }
+}</style><div id="container">
+    <header>
+        <h1><a href="/">AlexRhino</a></h1>
+            <ul class="social-media">
+                    <li><a href="#"><i class="fa fa-You can add links in your config file fa-lg" aria-hidden="true"></i></a></li>
+                    <li><a href="#"><i class="fa fa-Another social link fa-lg" aria-hidden="true"></i></a></li>
+            </ul>
+        <p><em></em></p>
+    </header>
+    <nav>
+        <ul>
+                    <li><a href="/category/devops.html"> devops </a></li>
+                    <li><a                         class="active" href="/category/post.html"> post </a></li>
+                    <li><a href="/pages/My favorite line.html">About Me</a>
+                    </li>
+        </ul>
+    </nav>
+<main>
+    <article>
+        <h2>About devops</h2>
+        
+        <aside>
+            <ul>
+                <li>
+                    <time datetime="2016-12-06 13:00:20+00:00">Dec 06, 2016</time>
+                </li>
+                <li>
+                    <time datetime="2016-12-06 13:00:20+00:00">Modified
+                        on Dec 06, 2016</time>
+                </li>
+                <li>17 min read</li>
+                <li>
+                    Categories:
+                    <a href="/category/post.html"><em>post</em></a>
+                </li>
+                <li>
+                    Tags:
+                    <a href="/tag/devops.html"><em>#Devops</em></a>
+                </li>
+            </ul>
+        </aside>
+        <p>What I know about devops.</p>
+<p>Devops is more about standardisation, management and cooperation than
+just a website or a bunch of scripts.</p>
+<p>Recently I have talked with serveral tech managers, they have a strong
+need for a proficient devops, or a system administrator with programming
+skills,or a programmer who is interested in system administration. In
+fact, I think what they really want is a full-stack engineer.</p>
+<p>But as projects nowadays are becomming too complex, it requires more
+than talent to be a real full-stack engineer who have to really
+understand more than three programming languages, one for backend, one
+for frontend, and another glue language, not to mention some other basic
+things such as html, css , etc. Even so, experience is necessary to
+aquire a full comprehension of all those sofeware design patterns and
+principles as we are still talking about engineering. Enthusiasm and
+dedication plays a key role in this, I doubt wether there are so many
+geniuses in this world would sacrifice there life for sofeware. Thus, a
+good team composed of specialist will be a better option, and a
+realistic solution for most IT managers to expect.</p>
+<p>Then how many members at least do we need for a devops team, or an
+effictive ops team? At least six. Four ops, two junior and two senior,
+one backend programmer, and one frontend programmer.</p>
+<p>For those four ops, they have to know all basic things about system
+administration including, but not limited, asset management, dns, dhcp,
+bare metal provisioning, network management, system management, version
+control, configuration management, continuous delivery, monitoring, log
+analysis, http and proxy server,database and other cache middleware.
+Good communication habits and skills is a must. Two younger ops have to
+take a bit more dirty works, such configuration changes or other tedious
+manual works, and basic cordination between different teams. Senior ones
+will put more energy on optimisation, but they should never avoid the
+dirty works, which push them for a better solution, in fact the most
+importance task for them is to help junior collegues to grow up, share
+knowledge responsibility. Rarely have I seen this in my short career
+life.</p>
+<p>For the backend programmer, he or she has to get a rough idea about how
+the production runs, better if involved in part of the development
+process, so we can integrate our production system with our ops system
+smoothly. A solid knowledge of software design is required, the ops
+system have to be robust distributed and scalable, easy to extened and
+depolyed, a standard interface document should be provided before we
+start coding. As message queue or event bus might be introduced into
+this, some experience is also prefered. This programmer should
+understand concurrency, multi-threading and asynchronous programming and
+be familiar with different databases, nosql, mysql, time series database
+as well as graph database. Life will be much easier if this person can
+make useof open souce tools, such as saltstack, ansible, chef, puppet,
+foreman.</p>
+<p>The frontend programmer have to take more responsibility as a production
+manager, that means, he or she is responsible for the webpage design and
+have a natural sense of user experience. It is difficult to put all
+miscellaneous functions needed by ops in order, and give ops an clear
+view of tasks with priority. Even though an ops system doesn't require a
+fantasitc frontend, simplicity and clarity can play key role in
+optimizing our processes.</p>
+<p>This is how I thought a small but effective ops team should be. It will
+work best when the whole company is in a middle scale with around 100 to
+250 employees. If your company has less than 50 people, use cloud and
+cloud management platform to save your ass from all possible ops
+disasters. If a company is bigger, we have to divide task to smaller
+jobs, and deeper knowledge is required in every subject such as a expert
+in dns or network.</p>
+<p>If we have these six talents, can we do a successful job? Most likely we
+would fail before we can really start. Why?</p>
+<p>The primary obstacle is technical debt. There are lots of casues of
+technical debts. I will not list all of them, there are plenty of
+discussions online. But I will name a few from an operator's pespective.
+This is a true story. Let's say we have a small website act as a core
+function in the whole system. It is well designed, well, not that well,
+but at least follow some good design patterns and implimented by several
+senior programmer. But the time is limited, we decide to give out a demo
+first, no documentation, no MVC, no restful. It turns out our production
+manager is quite satisfied with this demo, and decide to put it in
+production? What? In production? Are you kidding me? No, we have to put
+it in production, as it save us quite a lot of money if we abandoned the
+old commercial one, and it works well. This is a nightmare for ops team
+and it doesn't work well at all. First, dev team don't provide the basic
+scripts for update database, that means ops team have to backup and
+import themselves everytime table structure changes. Second, we have no
+interface to monitor the working status for this service, we might have
+designed one, but it is not there now, and will not be in a short time.
+Third, this site is not scalable and can't control remotely. If we have
+three different machines running this service, we have to control them
+and gather the info from all these machines. Of course, we have
+solutions to all these problems, the point is, this should never happend
+from the beginning. The second problem is about management.</p>
+<p>We have to do it even if we are meant to fail, here is my plan. If you
+are new to this team as a ops manager or a senior ops, do not hurry to
+make structural change in original processes, they exists for a reason.
+First, get to know how it really works. Even though a lot of things
+seems quite silly in your eyes, they still support this company goes so
+far, yes , there are a lot of problems, we are here to establish
+stability, to find a solution, but not to create more problems. I was
+too naive, I take words above back one year later, sometimes, or most
+times, a small fix won't do any help. What is more, as team members
+changes, nobody understand how the original system is designed. We have
+so many doubts, we hate them so much, however, we dare not make any
+changed, for fear to make things worse. How about refactoring, how can
+we redesign a better one without fully understanding? Do we have the
+time, do we have the men? It make me so frustrated even despair.</p>
+<p><strong>What I learned</strong></p>
+<ol class="arabic simple">
+<li>Devops is all about the coorperation between dev and ops.</li>
+<li>Full automation is impossible yet, as our current system is
+imperfect, package management is imperfect, new standard shows up,
+new deployment appears. At least, ops have to move the machine into
+the datacenter, and plug in the wire.</li>
+<li>Configuration management can't do everything, sometimes you just
+can't use state to defined it. However, it is only worse without it.</li>
+<li>Things change, architecture changes, people come and go, whoever left
+would never be able to understand the complex system.</li>
+</ol>
+<p><strong>What we can do right now</strong></p>
+<ol class="arabic simple">
+<li>Monitor what can be watched, and find out where the major problem or
+drawback is.</li>
+<li>Automate the most common and tedious tasks, then the rest.</li>
+<li>Learn from the failure and set a operation standard, and update the
+standard constantly.</li>
+<li>Don't repeat the same error.</li>
+<li>Backup when needed, too much backup will only waste your time and
+resource. Do restore regularly, or you will never be able to recover
+from your backup.</li>
+<li>If pair programming is good, then pair operating is wonderful.</li>
+</ol>
+<p><strong>What is a good cmdb, core of operation</strong></p>
+<ol class="arabic simple">
+<li>Restful.</li>
+<li>Distributed.</li>
+<li>Safe and stable with strong authentication system.</li>
+<li>With effitive logging mechanism.</li>
+<li>High-avaible.</li>
+<li>Easy to backup and restore and immigrate.</li>
+<li>Show the full topology of the whole system.</li>
+<li>Ralph is an good candidate if used with neo4j.</li>
+<li>Versioned database is neccessary.</li>
+</ol>
+<p><strong>What is a good monitor system</strong></p>
+<ol class="arabic simple">
+<li>Restful.</li>
+<li>Distributed.</li>
+<li>Clear and beautiful frontend.</li>
+<li>Support all kinds alerts methods, sms, emial, phone call, wechat,
+etc.</li>
+<li>Easy to intergrated with cmdb and configuration mangement system.</li>
+<li>Support both passive and active check.</li>
+<li>Low overheads.</li>
+<li>There are so many choices, collectd, graphite, seyren, and influxdb,
+promethues.</li>
+<li>No pefect open source apm now, sometimes people choose elk to solve
+their problem. However kibana has some limits, graphana is a good
+alternative.</li>
+<li>All these doesn't solve the false alert problem, a lot of things
+have to be done to locate where the real problems is. I think we can
+use graph to represent the requisites of one specific metric, that
+is, if network is down, application level alert should be silent.</li>
+</ol>
+<p><strong>Automation system</strong></p>
+<ol class="arabic simple">
+<li>A strong authentication system. Django authentication is a good
+model.</li>
+<li>I take the line above back, sso is still the best choice, and there
+are so many ways to implement it. LDAP is still the industry standard
+for all authenticaion backend, which is difficult to manage and kind
+of against modern design.</li>
+<li>Integrate authentication system with cmdb. Backend maybe rational
+database combined with graph database.</li>
+<li>Integrate cmdb with influxdb or logging system. (Influxdb is also not
+mature enough yet, distributed influxdb are commerical only, alerting
+and query are PITA)</li>
+<li>Integrate cmdb with configuration management system and remote
+excution system, such as saltstack.(To introduce saltstach in an
+existing system is impossible sometime, does it worth it, no one
+knows)</li>
+<li>Integrate configration management system with monitor system.</li>
+<li>All in one frontend.</li>
+</ol>
+<p><strong>Management</strong></p>
+<ol class="arabic simple">
+<li>All in all, devops are system administrators, that means, we are here
+to do administration, to do management.</li>
+<li>What kind of tools we are using never matters that much, salt,
+puppet, ansible, chef, cfengine, shell scripts, all these are to keep
+our service running, keep our business gaining profits.</li>
+<li>How do we separate different kind of roles, how we control
+permissions of different teams, how do we respond to the need of
+agile development, deployment are the most difficult part.</li>
+<li>Everybody who is not illiterate and with reasonable IQ can follow the
+manual. But how are you going to organize state files, what kind of
+strategy are you applying on your database encryption. Where to mount
+you webserver root. Do you have backup, how do we achieve high
+availability?</li>
+</ol>
+<p><strong>Basic traits of good devops/ops team</strong></p>
+<ol class="arabic simple">
+<li>Accurate and well-maintained inventory info. Whether it is a bunch of
+files or database, or a all-in-a solution.</li>
+<li>Well organized documents, amazing newbie guidance.</li>
+<li>Effectly communication, telephone or email or slack or gtalk or jira,
+doesn't matter, a standard template for all kind of requirements,
+request, that both the dev team and ops team know what it is, even a
+PM can got the basic idea of the tech details.</li>
+<li>Basic security awareness, not everyone can be an security expert,
+however, please don't give anyone root permission, or 777 on critical
+info.</li>
+<li>Have some basic programming skills, don't just follow what the dev
+team asked, they need your advise on architecture and high
+performance and high availability, we are paid to solve problem not
+to follow commands.</li>
+<li>Fire fighting is important, trival things occupy most of our time,
+still we have got to get into some long-time project.</li>
+</ol>
+<p><strong>Audit</strong></p>
+<ol class="arabic simple">
+<li>Auditd plus elk or logstash, which is better? Or shall we implement a
+customed one?</li>
+<li>We need to record who login the system, which commands are executed.
+We can locate the real cause of the problem. Configure management
+just keep our system in state, but one file has changed, who really
+made that change, our fellow colleagues or hackes?</li>
+</ol>
+<p><strong>Standardization</strong></p>
+<ol class="arabic simple">
+<li>How to open a ticket, what kind of information should be include in
+one special request?</li>
+<li>If it's to start an new instance, size of the cpu, disk, group,
+packages? We split request in to roles, how to organize these role.</li>
+</ol>
+<p><strong>Communication</strong></p>
+<ol class="arabic simple">
+<li>While ops leader focus on performance, stabality, who is going to
+remind him of the root cause.</li>
+<li>When the management of the whole team or the coorperation between
+teams goes wrong, can we move forward and reach an agreement to make
+it right? If compromise is unavoidable, which side is going to?</li>
+<li>We all have dirty works, how long will it last, do we have the plan
+to solve it?</li>
+<li>If we have to oncall, why do we? Do we have backups? Is there single
+point failure? The frequency of the problem?</li>
+<li>Just don't be dragged down by technical problems, we use technology
+to solve problem to free ourself, not to send us to endless work.</li>
+<li>Nobody is pefect, our money is limited. If our team members are all
+juniors, the architecture is such a mess, our dev team make silly
+mistakes now and then, then what?</li>
+<li>It nice to grow up with a startup, not only challenging and
+thrilling, but with fun and fulfilment.</li>
+<li>We need no blame culture, but we need all the teams to take
+responsiblity.</li>
+<li>How to make sure everyone make a contribution to the team and how to
+value it? What's the reawarding strategy?</li>
+<li>If we do not use confluence, what should we use?</li>
+</ol>
+<p><strong>Issue Tracker</strong></p>
+<ol class="arabic simple">
+<li>The best way to prevent an issue happend again it to find out its
+root cause.</li>
+<li>We have to record when the problem happens, how long it last, the
+main cause, the troubleshooting steps, the temporary solution, and
+the final solution. Also, other potencial similar problems, and
+precaution for this kind of issue.</li>
+<li>Not all companies can afford jira, and few of them combine jira with
+their monitoring and alert system. Should we do it?</li>
+<li>If we are going to use osTicket, how much effort does it take to
+maintain it?</li>
+<li>We met one online problem, we solve it, we forget it. What't the real
+cause, hwo to provent it happend again?</li>
+<li>How to to trigger an issue in this system when nagios or zabbix or
+prometheus detect a problem.</li>
+</ol>
+<p><strong>An account management system</strong></p>
+<ol class="arabic simple">
+<li>We can easily manage all groups and users with puppet or salt, still
+ops managers think it is not intuitively clear, especially for
+inexpericenced ops. It is always nice to have an account mangement
+system to tell which users are on whichs server, add them and remove
+them through the web page.</li>
+<li>We can use django to implement a simple account management system,
+and use it as a pillar source. But usually we use git to control our
+pillar and salt, which provide us an simple mechanism to roll back
+and log operation system.</li>
+<li>If we use django to implement a pillar source we have to implement
+the history function and rollback, how do we guarantee the
+reliability?</li>
+<li>We could also implement a module to sync the accounts, to do the
+change, we could also use the standard salt state formula to do the
+dirty work. No matter which, how to trigger them. To install the
+managements system on salt master itself or on a minion to fire the
+command, or just use the restful api provided by salt? Use a cron job
+to auto apply the highstate is not an ideal strategy as most of the
+time we want it to take effect immediately and make adjustment when
+it fails. So which one is better?</li>
+</ol>
+<p><strong>Personality</strong></p>
+<ol class="arabic simple">
+<li>Should an ops be optimistic or pessimistic? I spent four days reading
+the book Learned Optimism, according to the test result, I am
+definitely not a typical optimist, will I be a good SA or devops?</li>
+<li>In terms of firefighting, I guess to be an optimist is usually much
+better, they never seem to worry to much about the consequence or the
+following blame, and quickly get things fix, no matter temporary or
+permanent. However, most of them would be relaxed after the emergency
+and fail to think futher. They think this is just an accident and
+temporary, it is specific and absolutely not their fault.</li>
+<li>Pessimists like me would usually act much worse in firefighting, who
+spend too much time blaming self or other people, and find it hard to
+focus on fixing the problem. With a little adjustment, when we try to
+get things done, we would also waste quite a few time on a perfect
+solution, and refuse to accept a temporary one. On the other hand, I
+think pessimists act better in the long run, as long as they can
+survive the stress. Because we see the problem in a more realistic
+perspective, and never let go of a tiny hidden trouble. The question
+is if we can really act and make improvements.</li>
+<li>I still prefer an optimist with good working habits to thoroughly
+exmanine every single corner of the system and take action when a
+company is fast growing. For companies that already have a stable
+product or have a quite high standard of security and stability,
+pessimists should be part of the ops team. Of course, it is much much
+better to have both.</li>
+</ol>
+<p><strong>Project workflow</strong></p>
+<ol class="arabic simple">
+<li>If you company does not flow the
+<a class="reference external" href="http://electric-cloud.com/blog/2011/04/workflow-automation-that-enables-your-development-cloud/">workflow</a>,
+trouble may come for you.</li>
+<li><a class="reference external" href="https://www.cloudbees.com/blog/need-jenkins-pipeline">Workflow with
+jenkins</a></li>
+</ol>
+<p><strong>Two years later</strong></p>
+<ol class="arabic simple">
+<li>What make a sa/ops/devops/sre valuable, what differs the normal from
+the best?</li>
+</ol>
+<p>A man/woman that can solve problem is the right guy. Who can solve the
+problem? For a startup, the one with plenty of exprience who can setup a
+working production environment quickly is the right one. At this stage,
+nobody cares if it is perfect as long as it works. For a more mature
+company, it is totally different. The system grows so complex, a new
+member can't take all these tings over in less than three months no
+matter how good he/she is. It is the old pal who stays after serveral
+re-organiztions works best. There are always something only this people
+know, and only in his head. He might want to share all he knows in the
+paper, and get this bunch of rubbish, he never could. There is always
+something missing, this guy knows, his/her core value rely on it, the
+company can't dump him/she, as it also relies on the older system that
+profits. To some extent, technical skills would never makes you
+irreplaceable in a position. The team you stays in, the works you have
+done is what matters most. The boss don't care about automation,
+continuous deployment, if it doesn't makes them more profits, as long as
+there are cheap employees to handle this manually with less salary.</p>
+<p>Does it mean, the hours we spend on thinking is totally in vain? Does it
+mean, in engineering, innovation is pointless? No, no, no! It just takes
+more time that you expected, if you skills doesn't make enough
+differences, if you talks more than doing, it would always fail you. The
+wheels never stop, just looks back, everything has changed in laster
+twenty years in this business. Just be patient.</p>
+<p><strong>Are you sure you wanna to develop your own ops platform</strong></p>
+<ol class="arabic simple">
+<li>From my job seeking experience, quite a lot of company want to hire
+some one with high programming skills and develop their own internal
+platform. My reaction is, no, not yet. It seems a little pessimistic,
+but the reality is we are not there yet, you are not there yet.</li>
+<li>Most of the manager would ask following questions to evaluate the
+skills of the candiate, what kind of web framework do you use, how
+familiar you are with concurrency and multi-processing, do you have
+any idea of frontend framework. It's silly. So silly. To ops, what
+matters most is not how quickly we can get things done, realibility
+is what we care about most. If we can push the new configuration to
+ten thousands of servers in just one second, but has not way to
+validate or rollback, what's the point?</li>
+<li>Yes, kubenetes is cool, golang is fancy, so the job market favor this
+guys. But have you done the research, are your company big enough to
+support the new solution. The ops team has adopted so many tools, but
+we still get call in the midnight, we still don't know what really
+happened no matter how many alerts flooded here. You have
+configuration tools, but no idemoptency. You have hundreds of
+servers, but you don't know it the configurations tools really works
+or know. You have loadbalancers, you have to log in onto the server
+to know which backend it points to.</li>
+<li>If you don't have solid fundation and hurry to integrate all the
+compotents together, will it solve any problem. You think the
+commandline has such a high learning curve, and not so friendly to
+dev team. Will a silly web ui cover the underline fact that your
+deployment is not fully automated?</li>
+<li>You have heard of ansible, salt, chef ,puppet, but you use is as just
+another shell wrapper, treat them as a way to mass exection of bash
+sripts, and you complaint they sucks. Then you decide to write your
+own. Come on, thousands of people contribute to these software,
+encoutered and solved hundreds of problems and bugs. Why do you think
+a small teams of yours can be better than them? How do you think you
+will avoid all the mistakes they have already corrected?</li>
+<li>Will your system provide a better architect than the event bus
+saltstack has? Will your concurrency policy better than ansible
+provides? Do your project have better and verbose documentation than
+chef? Do you project have a strong community that puppet? I am not
+saying these are perfect, the truth is most of the team can't do
+better than them.</li>
+<li>Shall we just give up and doing nothing? Of course not, we still do
+small things, to apply best practices, to put more things as code, to
+gather more information together in on central databases. When the
+small scripts are enough, when less and less manual labor are
+involved, when all the members can have a good sleep at night, let's
+do the integration, put them together, modulized all the functions
+and welcome a new era.</li>
+</ol>
+
+    </article>
+    <section class="post-nav">
+        <div id="left-page">
+            <div id="left-link">
+                <div id="left-arrow"><i class="fa fa-chevron-circle-left"></i></div>
+                <a href="/Marked-page.html"> Marked page</a>
+            </div>
+        </div>
+        <div id="right-page">
+            <div id="right-link">
+                <a href="/Docker-py-and-Docker-For-Mac.html">Docker-py and Docker For Mac </a>
+                <div id="right-arrow"><i class="fa fa-chevron-circle-right"></i></div>
+            </div>
+        </div>
+    </section>
+    <div>
+    </div>
+</main>
+    <footer>
+        <h6>
+            Copyright &copy 2018
+- Alex Rhino | Rendered by <a href="http://getpelican.com/">Pelican</a> |
+            Powered by <a href="http://python.org">Python</a>
+        </h6>
+    </footer>
+</div>
+</body>
+</html>

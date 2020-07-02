@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>AlexRhino - I Love Ceph</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css"/>
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab|Ruda"/>
+        <link rel="stylesheet" type="text/css" href="/theme/css/main.css"/>
+
+<meta name="tags" content="ceph" />
+<meta name="tags" content="devops" />
+</head>
+<body>
+<style>.github-corner:hover .octo-arm {
+    animation: octocat-wave 560ms ease-in-out
+}
+@keyframes octocat-wave {
+    0%, 100% {
+        transform: rotate(0)
+    }
+    20%, 60% {
+        transform: rotate(-25deg)
+    }
+    40%, 80% {
+        transform: rotate(10deg)
+    }
+}
+@media (max-width: 500px) {
+    .github-corner:hover .octo-arm {
+        animation: none
+    }
+
+    .github-corner .octo-arm {
+        animation: octocat-wave 560ms ease-in-out
+    }
+}</style><div id="container">
+    <header>
+        <h1><a href="/">AlexRhino</a></h1>
+            <ul class="social-media">
+                    <li><a href="#"><i class="fa fa-You can add links in your config file fa-lg" aria-hidden="true"></i></a></li>
+                    <li><a href="#"><i class="fa fa-Another social link fa-lg" aria-hidden="true"></i></a></li>
+            </ul>
+        <p><em></em></p>
+    </header>
+    <nav>
+        <ul>
+                    <li><a                         class="active" href="/category/devops.html"> devops </a></li>
+                    <li><a href="/category/post.html"> post </a></li>
+                    <li><a href="/pages/My favorite line.html">About Me</a>
+                    </li>
+        </ul>
+    </nav>
+<main>
+    <article>
+        <h2>I Love Ceph</h2>
+        
+        <aside>
+            <ul>
+                <li>
+                    <time datetime="2019-01-07 01:30:59+00:00">Jan 07, 2019</time>
+                </li>
+                <li>
+                    <time datetime="2019-01-07 01:30:59+00:00">Modified
+                        on Jan 07, 2019</time>
+                </li>
+                <li>2 min read</li>
+                <li>
+                    Categories:
+                    <a href="/category/devops.html"><em>devops</em></a>
+                </li>
+                <li>
+                    Tags:
+                    <a href="/tag/ceph.html"><em>#ceph</em></a>
+                    <a href="/tag/devops.html"><em>#devops</em></a>
+                </li>
+            </ul>
+        </aside>
+        <p>I like ceph? or not?</p>
+<ul>
+<li><p class="first"><a class="reference external" href="https://blog.noc.grnet.gr/2016/10/18/surviving-a-ceph-cluster-outage-the-hard-way/">Survive a
+outage</a></p>
+</li>
+<li><p class="first"><a class="reference external" href="https://ceph.com/geen-categorie/admin-guide-replacing-a-failed-disk-in-a-ceph-cluster/">Replace failed
+disk</a></p>
+</li>
+<li><p class="first"><a class="reference external" href="https://github.com/ceph/ceph/blob/v0.94.10/doc/rados/operations/add-or-rm-osds.rst">Add osd in early version of
+ceph</a></p>
+</li>
+<li><p class="first"><a class="reference external" href="https://arvimal.blog/2015/05/06/how-to-list-all-the-configuration-settings-in-a-ceph-cluster-monitor/">Get runtme
+config</a></p>
+</li>
+<li><p class="first"><a class="reference external" href="http://docs.ceph.com/docs/mimic/rados/configuration/osd-config-ref/#scrubbing">scrubing</a></p>
+</li>
+<li><p class="first"><a class="reference external" href="https://ceph.com/geen-categorie/deep-scrub-distribution/">deep-scrub-distribution</a></p>
+<pre class="literal-block">
+In addition to making multiple copies of objects, Ceph insures data integrity by scrubbing placement groups. Ceph scrubbing is analogous to fsck on the object storage layer. For each placement group, Ceph generates a catalog of all objects and compares each primary object and its replicas to ensure that no objects are missing or mismatched. Light scrubbing (daily) checks the object size and attributes. Deep scrubbing (weekly) reads the data and uses checksums to ensure data integrity.
+</pre>
+</li>
+<li><p class="first"><a class="reference external" href="http://tracker.ceph.com/issues/6258">Fix partition error when
+deploy</a></p>
+<pre class="literal-block">
+#!/bin/bash
+
+for i in b c d; do
+  for n in 1 2 ; do
+    wipefs /dev/sd${i}${n}
+    dd if=/dev/zero of=/dev/sd${i}${n} bs=4k count=10000
+    sgdisk --zap-all --clear -g /dev/sd${i}
+#    parted /dev/sd${i} rm ${n}
+    kpartx -dug /dev/sd${i}
+    partprobe /dev/sd${i}
+    dd if=/dev/zero of=/dev/sd${i} bs=4k count=10000
+    ceph-disk zap /dev/sd${i}
+  done
+done
+
+/usr/bin/udevadm settle
+</pre>
+</li>
+<li><p class="first"><a class="reference external" href="http://lists.ceph.com/pipermail/ceph-users-ceph.com/2014-April/038989.html">Backfill and Recovery traffic
+shaping</a></p>
+<pre class="literal-block">
+ceph tell osd.* injectargs '--osd-max-backfills 1'
+ceph tell osd.* injectargs '--osd-max-recovery-threads 1'
+ceph tell osd.* injectargs '--osd-recovery-op-priority 1'
+ceph tell osd.* injectargs '--osd-client-op-priority 63'
+ceph tell osd.* injectargs '--osd-recovery-max-active 1'
+ceph osd set nodeep-scrub
+ceph osd unset nodeep-scrub
+</pre>
+</li>
+<li><p class="first"><a class="reference external" href="http://docs.ceph.com/docs/mimic/man/8/ceph-conf/">ceph-conf</a></p>
+<pre class="literal-block">
+Note that unlike other ceph tools, ceph-conf will only read from config files (or return compiled-in default values)–it will not fetch config values from the monitor cluster. For this reason it is recommended that ceph-conf only be used in legacy environments that are strictly config-file based. New deployments and tools should instead rely on either querying the monitor explicitly for configuration (e.g., ceph config get &lt;daemon&gt; &lt;option&gt;) or use daemons themselves to fetch effective config options (e.g., ceph-osd -i 123 --show-config-value osd_data). The latter option has the advantages of drawing from compiled-in defaults (which occasionally vary between daemons), config files, and the monitor’s config database, providing the exact value that that daemon would be using if it were started.
+</pre>
+</li>
+<li><p class="first"><a class="reference external" href="http://docs.ceph.com/docs/giant/rados/configuration/mon-config-ref/">mon-config-ref</a></p>
+<pre class="literal-block">
+When you add monitor settings to your Ceph configuration file, you need to be aware of some of the architectural aspects of Ceph Monitors. Ceph imposes strict consistency requirements for a Ceph monitor when discovering another Ceph Monitor within the cluster. Whereas, Ceph Clients and other Ceph daemons use the Ceph configuration file to discover monitors, monitors discover each other using the monitor map (monmap), not the Ceph configuration file.
+</pre>
+</li>
+</ul>
+
+    </article>
+    <section class="post-nav">
+        <div id="left-page">
+            <div id="left-link">
+                <a href="/"> </a>
+            </div>
+        </div>
+        <div id="right-page">
+            <div id="right-link">
+                <a href="/I-Like-Systemd.html">I Like Systemd </a>
+                <div id="right-arrow"><i class="fa fa-chevron-circle-right"></i></div>
+            </div>
+        </div>
+    </section>
+    <div>
+    </div>
+</main>
+    <footer>
+        <h6>
+            Copyright &copy 2018
+- Alex Rhino | Rendered by <a href="http://getpelican.com/">Pelican</a> |
+            Powered by <a href="http://python.org">Python</a>
+        </h6>
+    </footer>
+</div>
+</body>
+</html>

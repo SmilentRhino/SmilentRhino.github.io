@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>AlexRhino - Vagrant Override Default SSH Port</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css"/>
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab|Ruda"/>
+        <link rel="stylesheet" type="text/css" href="/theme/css/main.css"/>
+
+<meta name="tags" content="Devops" />
+</head>
+<body>
+<style>.github-corner:hover .octo-arm {
+    animation: octocat-wave 560ms ease-in-out
+}
+@keyframes octocat-wave {
+    0%, 100% {
+        transform: rotate(0)
+    }
+    20%, 60% {
+        transform: rotate(-25deg)
+    }
+    40%, 80% {
+        transform: rotate(10deg)
+    }
+}
+@media (max-width: 500px) {
+    .github-corner:hover .octo-arm {
+        animation: none
+    }
+
+    .github-corner .octo-arm {
+        animation: octocat-wave 560ms ease-in-out
+    }
+}</style><div id="container">
+    <header>
+        <h1><a href="/">AlexRhino</a></h1>
+            <ul class="social-media">
+                    <li><a href="#"><i class="fa fa-You can add links in your config file fa-lg" aria-hidden="true"></i></a></li>
+                    <li><a href="#"><i class="fa fa-Another social link fa-lg" aria-hidden="true"></i></a></li>
+            </ul>
+        <p><em></em></p>
+    </header>
+    <nav>
+        <ul>
+                    <li><a href="/category/devops.html"> devops </a></li>
+                    <li><a                         class="active" href="/category/post.html"> post </a></li>
+                    <li><a href="/pages/My favorite line.html">About Me</a>
+                    </li>
+        </ul>
+    </nav>
+<main>
+    <article>
+        <h2>Vagrant Override Default SSH Port</h2>
+        
+        <aside>
+            <ul>
+                <li>
+                    <time datetime="2015-09-01 18:41:55+01:00">Sep 01, 2015</time>
+                </li>
+                <li>
+                    <time datetime="2015-09-01 18:41:55+01:00">Modified
+                        on Sep 01, 2015</time>
+                </li>
+                <li>2 min read</li>
+                <li>
+                    Categories:
+                    <a href="/category/post.html"><em>post</em></a>
+                </li>
+                <li>
+                    Tags:
+                    <a href="/tag/devops.html"><em>#Devops</em></a>
+                </li>
+            </ul>
+        </aside>
+        <p>How to overide vagrant default ssh port.</p>
+<p>Vagrant forward port 2222 on host to 22 on guest for ssh. What more
+important is that it will override whatever you set for port forwarding
+of port 22 without the mark id:&quot;ssh&quot;.</p>
+<p>Let me make it clear,the following port forwarding will not take effort,
+vagrant will say there is a port conflict, and set a random port on host
+for you instead of 2223.</p>
+<pre><code>
+  # Create a forwarded port mapping which allows access to a specific port
+  # within the machine from a port on the host machine. In the example below,
+  # accessing "localhost:8080" will access port 80 on the guest machine.
+  config.vm.network "forwarded_port", guest: 22, host: 2223, guest_ip: "10.0.2.14"
+  config.vm.network "forwarded_port", guest: 80, host: 8083, guest_ip: "10.0.2.14"
+  #config.vm.network "forwarded_port", guest: 24, host: 3007, guest_ip: "10.0.2.14"
+</code></pre><p>what vagrant shows may look like this one</p>
+<pre><code>
+==> ubuntu64: Fixed port collision for 22 => 2222. Now on port 2200.
+</code></pre><p>but the following configure will work well.</p>
+<pre><code>
+  # Create a forwarded port mapping which allows access to a specific port
+  # within the machine from a port on the host machine. In the example below,
+  # accessing "localhost:8080" will access port 80 on the guest machine.
+  config.vm.network "forwarded_port", guest: 22, host: 2223, guest_ip: "10.0.2.14", id:"ssh"
+  config.vm.network "forwarded_port", guest: 80, host: 8083, guest_ip: "10.0.2.14"
+  #config.vm.network "forwarded_port", guest: 24, host: 3007, guest_ip: "10.0.2.14
+</code></pre>
+    </article>
+    <section class="post-nav">
+        <div id="left-page">
+            <div id="left-link">
+                <div id="left-arrow"><i class="fa fa-chevron-circle-left"></i></div>
+                <a href="/Vagrant-Destory.html"> Vagrant Destory</a>
+            </div>
+        </div>
+        <div id="right-page">
+            <div id="right-link">
+                <a href="/Thanks-Jekyll.html">Thanks Jekyll </a>
+                <div id="right-arrow"><i class="fa fa-chevron-circle-right"></i></div>
+            </div>
+        </div>
+    </section>
+    <div>
+    </div>
+</main>
+    <footer>
+        <h6>
+            Copyright &copy 2018
+- Alex Rhino | Rendered by <a href="http://getpelican.com/">Pelican</a> |
+            Powered by <a href="http://python.org">Python</a>
+        </h6>
+    </footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>AlexRhino - Another Man Leaves The Team</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css"/>
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab|Ruda"/>
+        <link rel="stylesheet" type="text/css" href="/theme/css/main.css"/>
+
+<meta name="tags" content="devops" />
+</head>
+<body>
+<style>.github-corner:hover .octo-arm {
+    animation: octocat-wave 560ms ease-in-out
+}
+@keyframes octocat-wave {
+    0%, 100% {
+        transform: rotate(0)
+    }
+    20%, 60% {
+        transform: rotate(-25deg)
+    }
+    40%, 80% {
+        transform: rotate(10deg)
+    }
+}
+@media (max-width: 500px) {
+    .github-corner:hover .octo-arm {
+        animation: none
+    }
+
+    .github-corner .octo-arm {
+        animation: octocat-wave 560ms ease-in-out
+    }
+}</style><div id="container">
+    <header>
+        <h1><a href="/">AlexRhino</a></h1>
+            <ul class="social-media">
+                    <li><a href="#"><i class="fa fa-You can add links in your config file fa-lg" aria-hidden="true"></i></a></li>
+                    <li><a href="#"><i class="fa fa-Another social link fa-lg" aria-hidden="true"></i></a></li>
+            </ul>
+        <p><em></em></p>
+    </header>
+    <nav>
+        <ul>
+                    <li><a href="/category/devops.html"> devops </a></li>
+                    <li><a                         class="active" href="/category/post.html"> post </a></li>
+                    <li><a href="/pages/My favorite line.html">About Me</a>
+                    </li>
+        </ul>
+    </nav>
+<main>
+    <article>
+        <h2>Another Man Leaves The Team</h2>
+        
+        <aside>
+            <ul>
+                <li>
+                    <time datetime="2017-12-12 04:03:53+00:00">Dec 12, 2017</time>
+                </li>
+                <li>
+                    <time datetime="2017-12-12 04:03:53+00:00">Modified
+                        on Dec 12, 2017</time>
+                </li>
+                <li>2 min read</li>
+                <li>
+                    Categories:
+                    <a href="/category/post.html"><em>post</em></a>
+                </li>
+                <li>
+                    Tags:
+                    <a href="/tag/devops.html"><em>#devops</em></a>
+                </li>
+            </ul>
+        </aside>
+        <p>Is vault a perfect solution for manaing secrets?</p>
+<p><strong>Main Problem</strong></p>
+<p>I guess I am not the only one, and not the last one seeking for a
+secrets management solution in daily operation. This post might be a
+little outdated, it is still worthy reading.
+<a class="reference external" href="http://blog.jasonantman.com/2014/10/managing-ec2-ssh-keys-an-idea/">managing-ec2-ssh-keys-an-idea</a></p>
+<p>In fact, we shouldn't worry about this, according to <a class="reference external" href="https://wblinks.com/notes/aws-tips-i-wish-id-known-before-i-started/">aws
+tips</a>,
+we shouldn't ssh to any server to achive full automation. However, there
+is still a long way to go before we can get there because of those tech
+debts. Our logs are not fully centralized, I think, same as most
+companies.</p>
+<p><strong>Steps to set up vault</strong></p>
+<ol class="arabic simple">
+<li>Init jumpbox with default private key pair.(ansible)</li>
+<li>Setup LDAP and add groups with.(ansible)</li>
+<li>Setup vault with LDAP as auth backend, expose vault to public.</li>
+<li>Configure jumpbox to use vault, remove older authorized_keys .
+(ansible)</li>
+</ol>
+<p><strong>What vault really does</strong></p>
+<ol class="arabic simple">
+<li>Vault is the only one with root privillege, it will create a
+temparory credential pair for every kind of requests, aws, mysql,
+etc.</li>
+</ol>
+<p><strong>What vault does't solve</strong></p>
+<ol class="arabic simple">
+<li>We have to manage vault auth backend, there is still a syncronization
+problem between corporation internal network and prod environment,
+not to mentions the more complex geographic problem. Not everyone
+should have access to production servers. Organization structure
+should also be considered as top secret in some circumstances.</li>
+<li>How to we keep the root credential? Should it be in key management
+tools, should it be in wiki? The one that in charge choose to leave
+the company for better future, how to handover all the credentials?</li>
+<li>If someone with the credential choose to skip vault to access
+resources, how do we audit?</li>
+<li>If we use ssh secret backend, how do we verify and monitor it, how to
+ensure it is working, what if not?</li>
+<li>If our jumpbox use vault as backend, what if vault fails and jumpbox
+block us?</li>
+<li>We can't skip configuration management tools in real life, how to
+combine vault with those tools? What does it cost, does it deserve?</li>
+</ol>
+
+    </article>
+    <section class="post-nav">
+        <div id="left-page">
+            <div id="left-link">
+                <div id="left-arrow"><i class="fa fa-chevron-circle-left"></i></div>
+                <a href="/I-Should-Know-This-About-Aws.html"> I Should Know This About Aws</a>
+            </div>
+        </div>
+        <div id="right-page">
+            <div id="right-link">
+                <a href="/Jenkins-In-Work.html">Jenkins In Work </a>
+                <div id="right-arrow"><i class="fa fa-chevron-circle-right"></i></div>
+            </div>
+        </div>
+    </section>
+    <div>
+    </div>
+</main>
+    <footer>
+        <h6>
+            Copyright &copy 2018
+- Alex Rhino | Rendered by <a href="http://getpelican.com/">Pelican</a> |
+            Powered by <a href="http://python.org">Python</a>
+        </h6>
+    </footer>
+</div>
+</body>
+</html>

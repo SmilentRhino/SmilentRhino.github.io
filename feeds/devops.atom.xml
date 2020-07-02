@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>AlexRhino - devops</title><link href="/" rel="alternate"></link><link href="/feeds/devops.atom.xml" rel="self"></link><id>/</id><updated>2019-01-07T01:30:59+00:00</updated><entry><title>I Love Ceph</title><link href="/i-love-ceph.html" rel="alternate"></link><published>2019-01-07T01:30:59+00:00</published><updated>2019-01-07T01:30:59+00:00</updated><author><name>Alex Rhino</name></author><id>tag:None,2019-01-07:/i-love-ceph.html</id><summary type="html">&lt;p class="first last"&gt;I like ceph? or not?&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;I like ceph? or not?&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p class="first"&gt;&lt;a class="reference external" href="https://blog.noc.grnet.gr/2016/10/18/surviving-a-ceph-cluster-outage-the-hard-way/"&gt;Survive a
+outage&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;&lt;a class="reference external" href="https://ceph.com/geen-categorie/admin-guide-replacing-a-failed-disk-in-a-ceph-cluster/"&gt;Replace failed
+disk&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;&lt;a class="reference external" href="https://github.com/ceph/ceph/blob/v0.94.10/doc/rados/operations/add-or-rm-osds.rst"&gt;Add osd in early version of
+ceph&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;&lt;a class="reference external" href="https://arvimal.blog/2015/05/06/how-to-list-all-the-configuration-settings-in-a-ceph-cluster-monitor/"&gt;Get runtme
+config&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;&lt;a class="reference external" href="http://docs.ceph.com/docs/mimic/rados/configuration/osd-config-ref/#scrubbing"&gt;scrubing&lt;/a&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;&lt;a class="reference external" href="https://ceph.com/geen-categorie/deep-scrub-distribution/"&gt;deep-scrub-distribution&lt;/a&gt;&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+In addition to making multiple copies of objects, Ceph insures data integrity by scrubbing placement groups. Ceph scrubbing is analogous to fsck on the object storage layer. For each placement group, Ceph generates a catalog of all objects and compares each primary object and its replicas to ensure that no objects are missing or mismatched. Light scrubbing (daily) checks the object size and attributes. Deep scrubbing (weekly) reads the data and uses checksums to ensure data integrity.
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;&lt;a class="reference external" href="http://tracker.ceph.com/issues/6258"&gt;Fix partition error when
+deploy&lt;/a&gt;&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+#!/bin/bash
+
+for i in b c d; do
+  for n in 1 2 ; do
+    wipefs /dev/sd${i}${n}
+    dd if=/dev/zero of=/dev/sd${i}${n} bs=4k count=10000
+    sgdisk --zap-all --clear -g /dev/sd${i}
+#    parted /dev/sd${i} rm ${n}
+    kpartx -dug /dev/sd${i}
+    partprobe /dev/sd${i}
+    dd if=/dev/zero of=/dev/sd${i} bs=4k count=10000
+    ceph-disk zap /dev/sd${i}
+  done
+done
+
+/usr/bin/udevadm settle
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;&lt;a class="reference external" href="http://lists.ceph.com/pipermail/ceph-users-ceph.com/2014-April/038989.html"&gt;Backfill and Recovery traffic
+shaping&lt;/a&gt;&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+ceph tell osd.* injectargs '--osd-max-backfills 1'
+ceph tell osd.* injectargs '--osd-max-recovery-threads 1'
+ceph tell osd.* injectargs '--osd-recovery-op-priority 1'
+ceph tell osd.* injectargs '--osd-client-op-priority 63'
+ceph tell osd.* injectargs '--osd-recovery-max-active 1'
+ceph osd set nodeep-scrub
+ceph osd unset nodeep-scrub
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;&lt;a class="reference external" href="http://docs.ceph.com/docs/mimic/man/8/ceph-conf/"&gt;ceph-conf&lt;/a&gt;&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+Note that unlike other ceph tools, ceph-conf will only read from config files (or return compiled-in default values)–it will not fetch config values from the monitor cluster. For this reason it is recommended that ceph-conf only be used in legacy environments that are strictly config-file based. New deployments and tools should instead rely on either querying the monitor explicitly for configuration (e.g., ceph config get &amp;lt;daemon&amp;gt; &amp;lt;option&amp;gt;) or use daemons themselves to fetch effective config options (e.g., ceph-osd -i 123 --show-config-value osd_data). The latter option has the advantages of drawing from compiled-in defaults (which occasionally vary between daemons), config files, and the monitor’s config database, providing the exact value that that daemon would be using if it were started.
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;&lt;a class="reference external" href="http://docs.ceph.com/docs/giant/rados/configuration/mon-config-ref/"&gt;mon-config-ref&lt;/a&gt;&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+When you add monitor settings to your Ceph configuration file, you need to be aware of some of the architectural aspects of Ceph Monitors. Ceph imposes strict consistency requirements for a Ceph monitor when discovering another Ceph Monitor within the cluster. Whereas, Ceph Clients and other Ceph daemons use the Ceph configuration file to discover monitors, monitors discover each other using the monitor map (monmap), not the Ceph configuration file.
+&lt;/pre&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+</content><category term="devops"></category><category term="ceph"></category><category term="devops"></category></entry></feed>

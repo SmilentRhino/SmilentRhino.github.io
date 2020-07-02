@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>AlexRhino - Verify Whether SNI IS Turned Off</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css"/>
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab|Ruda"/>
+        <link rel="stylesheet" type="text/css" href="/theme/css/main.css"/>
+
+<meta name="tags" content="Devops" />
+</head>
+<body>
+<style>.github-corner:hover .octo-arm {
+    animation: octocat-wave 560ms ease-in-out
+}
+@keyframes octocat-wave {
+    0%, 100% {
+        transform: rotate(0)
+    }
+    20%, 60% {
+        transform: rotate(-25deg)
+    }
+    40%, 80% {
+        transform: rotate(10deg)
+    }
+}
+@media (max-width: 500px) {
+    .github-corner:hover .octo-arm {
+        animation: none
+    }
+
+    .github-corner .octo-arm {
+        animation: octocat-wave 560ms ease-in-out
+    }
+}</style><div id="container">
+    <header>
+        <h1><a href="/">AlexRhino</a></h1>
+            <ul class="social-media">
+                    <li><a href="#"><i class="fa fa-You can add links in your config file fa-lg" aria-hidden="true"></i></a></li>
+                    <li><a href="#"><i class="fa fa-Another social link fa-lg" aria-hidden="true"></i></a></li>
+            </ul>
+        <p><em></em></p>
+    </header>
+    <nav>
+        <ul>
+                    <li><a href="/category/devops.html"> devops </a></li>
+                    <li><a                         class="active" href="/category/post.html"> post </a></li>
+                    <li><a href="/pages/My favorite line.html">About Me</a>
+                    </li>
+        </ul>
+    </nav>
+<main>
+    <article>
+        <h2>Verify Whether SNI IS Turned Off</h2>
+        
+        <aside>
+            <ul>
+                <li>
+                    <time datetime="2016-10-26 13:00:20+01:00">Oct 26, 2016</time>
+                </li>
+                <li>
+                    <time datetime="2016-10-26 13:00:20+01:00">Modified
+                        on Oct 26, 2016</time>
+                </li>
+                <li>5 min read</li>
+                <li>
+                    Categories:
+                    <a href="/category/post.html"><em>post</em></a>
+                </li>
+                <li>
+                    Tags:
+                    <a href="/tag/devops.html"><em>#Devops</em></a>
+                </li>
+            </ul>
+        </aside>
+        <p>To test if sni if off on a CDN node, we can use openssl s_client to get
+the public key.</p>
+<p>Turn off SNI support when using requests</p>
+<pre><code>
+(Python27)Smilentrhino-Mac:~ smilentrhino$ python
+Python 2.7.10 (default, Oct 23 2015, 19:19:21)
+[GCC 4.2.1 Compatible Apple LLVM 7.0.0 (clang-700.0.59.5)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import ssl
+>>> ssl.HAS_SNI = False
+>>> import requests
+>>> s = requests.get('https://www.example.com',verify="/Users/smilentrhino/domain.cert")
+/Users/smilentrhino/Python27/lib/python2.7/site-packages/requests/packages/urllib3/util/ssl_.py:318: SNIMissingWarning: An HTTPS request has been made, but the SNI (Subject Name Indication) extension to TLS is not available on this platform. This may cause the server to present an incorrect TLS certificate, which can cause validation failures. You can upgrade to a newer version of Python to solve this. For more information, see https://urllib3.readthedocs.io/en/latest/security.html#snimissingwarning.
+  SNIMissingWarning
+/Users/mzzhang/kabam/Python27/lib/python2.7/site-packages/requests/packages/urllib3/connection.py:303: SubjectAltNameWarning: Certificate for www.example.com has no `subjectAltName`, falling back to check for a `commonName` for now. This feature is being removed by major browsers and deprecated by RFC 2818. (See https://github.com/shazow/urllib3/issues/497 for details.)
+  SubjectAltNameWarning
+>>> s.status_code
+200
+>>> print s.text
+
+</code></pre><p>Use openssl to check site cert</p>
+<pre><code>
+(Python27)Smilentrhino-Mac:~ smilentrhino$ openssl s_client -connect www.example.com:443
+CONNECTED(00000003)
+depth=0 /C=CN/ST=CN/L=china/O=wangsu/OU=wangsu/CN=test_need_update_cer.com/emailAddress=test
+verify error:num=18:self signed certificate
+verify return:1
+depth=0 /C=CN/ST=CN/L=china/O=wangsu/OU=wangsu/CN=test_need_update_cer.com/emailAddress=test
+verify return:1
+---
+Certificate chain
+ 0 s:/C=CN/ST=CN/L=china/O=wangsu/OU=wangsu/CN=test_need_update_cer.com/emailAddress=test
+   i:/C=CN/ST=CN/L=china/O=wangsu/OU=wangsu/CN=test_need_update_cer.com/emailAddress=test
+---
+Server certificate
+-----BEGIN CERTIFICATE-----
+MII*************************************************************
+****************************************************************
+****************************************************************
+****************************************************************
+****************************************************************
+****************************************************************
+****************************************************************
+****************************************************************
+****************************************************************
+****************************************************************
+****************************************************************
+****************************************************************
+****************************************************************
+****************************************************************
+****************************************************************
+****************************************************************
+****************************************************************
+****************************************************************
+****************************************************************
+****************************************************************
+****************************************************************
+****************************************************************
+****************************************************************
+*************************************************************+jL
+-----END CERTIFICATE-----
+subject=/C=CN/ST=CN/L=china/O=wangsu/OU=wangsu/CN=test_need_update_cer.com/emailAddress=test
+issuer=/C=CN/ST=CN/L=china/O=wangsu/OU=wangsu/CN=test_need_update_cer.com/emailAddress=test
+---
+No client certificate CA names sent
+---
+SSL handshake has read 1321 bytes and written 456 bytes
+---
+New, TLSv1/SSLv3, Cipher is AES256-SHA
+Server public key is 2048 bit
+Secure Renegotiation IS supported
+Compression: NONE
+Expansion: NONE
+SSL-Session:
+    Protocol  : TLSv1
+    Cipher    : AES256-SHA
+    Session-ID: F4************************************************************25
+    Session-ID-ctx:
+    Master-Key: 75********************************************************************************************10
+    Key-Arg   : None
+    Start Time: 1477458673
+    Timeout   : 300 (sec)
+    Verify return code: 18 (self signed certificate)
+---
+closed
+
+</code></pre><pre><code>
+(Python27)Smilentrhino-Mac:~ smilentrhino$ openssl s_client -connect www.example.com:443 -servername www.example.com
+CONNECTED(00000003)
+depth=0 /C=US/ST=NY/L=New York/O=ChinaNet/OU=test/CN=*.example.com/emailAddress=test@example.com
+verify error:num=18:self signed certificate
+verify return:1
+depth=0 /C=US/ST=NY/L=New York/O=ChinaNet/OU=test/CN=*.example.com/emailAddress=test@example.com
+verify return:1
+---
+Certificate chain
+ 0 s:/C=US/ST=NY/L=New York/O=ChinaNet/OU=test/CN=*.example.com/emailAddress=test@example.com
+   i:/C=US/ST=NY/L=New York/O=ChinaNet/OU=test/CN=*.example.com/emailAddress=test@example.com
+---
+Server certificate
+-----BEGIN CERTIFICATE-----
+MII*************************************************************
+****************************************************************
+****************************************************************
+****************************************************************
+****************************************************************
+****************************************************************
+****************************************************************
+****************************************************************
+****************************************************************
+****************************************************************
+****************************************************************
+****************************************************************
+****************************************************************
+****************************************************************
+****************************************************************
+****************************************************************
+****************************************************************
+****************************************************************
+****************************************************************
+****************************************************************
+****************************************************************
+****************************************************************
+****************************************************************
+****************************************************************
+****************************************************************
+****************************************************************
+****************************************************************
+****************************************************************
+****************************************************************
+****************************************************************
+****************************************************************
+****************************************************************
+****************************************************************
+****************************************************************
+***********************************************g
+-----END CERTIFICATE-----
+subject=/C=US/ST=NY/L=New York/O=ChinaNet/OU=test/CN=*.example.com/emailAddress=test@example.com
+issuer=/C=US/ST=NY/L=New York/O=ChinaNet/OU=test/CN=*.example.com/emailAddress=test@example.com
+---
+No client certificate CA names sent
+---
+SSL handshake has read 2004 bytes and written 704 bytes
+---
+New, TLSv1/SSLv3, Cipher is AES256-SHA
+Server public key is 4096 bit
+Secure Renegotiation IS supported
+Compression: NONE
+Expansion: NONE
+SSL-Session:
+    Protocol  : TLSv1
+    Cipher    : AES256-SHA
+    Session-ID: 19************************************************************08
+    Session-ID-ctx:
+    Master-Key: 02********************************************************************************************2D
+    Key-Arg   : None
+    TLS session ticket lifetime hint: 300 (seconds)
+    TLS session ticket:
+    0000 - 10 6c d2 2b 12 2a ea 05-1e e0 e5 04 a5 e8 77 10   .l.+.*........w.
+    0010 - db 04 27 c6 dd e5 99 6b-89 2b 00 ed 53 27 80 a0   ..'....k.+..S'..
+    0020 - 60 34 2d c4 4a 97 fa 11-34 7c 39 a4 60 29 ef e7   `4-.J...4|9.`)..
+    0030 - b4 17 c4 43 08 a6 be 82-02 b3 82 ea 2a 1e ee 4c   ...C........*..L
+    0040 - 7e 5a d1 6f 97 6b c7 32-13 72 61 e7 ec d5 ea 78   ~Z.n.k.2.ra....x
+    0050 - 8a 83 7a 85 d1 bd 16 31-b4 3c b1 2f ed a5 35 7d   ..z....1.<./..5}
+    0060 - 91 2c a5 92 c6 0a 16 2e-f3 d8 ff e9 14 1c 3f c4   .,............?.
+    0070 - 3e 1f 37 5e af 8e 56 a5-5a 40 f8 25 4b 9f 8f 80   >.7^..V.Z@.%K...
+    0080 - ea 37 3c 12 42 12 a6 e8-f6 25 f6 0d 41 96 78 b0   .7<.B....%..A.x.
+    0090 - f0 df a9 99 d8 2d 34 9b-cf b8 e8 83 74 42 a4 aa   ......4.....tB..
+    00a0 - d3 b2 bf 86 5a aa 0b 82-fc f4 4d 1f 8d 99 bb 25   ....Z.....M....%
+
+    Start Time: 1477453340
+    Timeout   : 300 (sec)
+    Verify return code: 18 (self signed certificate)
+---
+closed
+
+</code></pre>
+    </article>
+    <section class="post-nav">
+        <div id="left-page">
+            <div id="left-link">
+                <div id="left-arrow"><i class="fa fa-chevron-circle-left"></i></div>
+                <a href="/Docker-py-and-Docker-on-Mac.html"> Docker-py and Docker on Mac</a>
+            </div>
+        </div>
+        <div id="right-page">
+            <div id="right-link">
+                <a href="/Ielts-speaking-time.html">Ielts speaking time </a>
+                <div id="right-arrow"><i class="fa fa-chevron-circle-right"></i></div>
+            </div>
+        </div>
+    </section>
+    <div>
+    </div>
+</main>
+    <footer>
+        <h6>
+            Copyright &copy 2018
+- Alex Rhino | Rendered by <a href="http://getpelican.com/">Pelican</a> |
+            Powered by <a href="http://python.org">Python</a>
+        </h6>
+    </footer>
+</div>
+</body>
+</html>

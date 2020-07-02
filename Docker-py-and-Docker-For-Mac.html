@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>AlexRhino - Docker-py and Docker For Mac</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css"/>
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab|Ruda"/>
+        <link rel="stylesheet" type="text/css" href="/theme/css/main.css"/>
+
+<meta name="tags" content="Devops" />
+</head>
+<body>
+<style>.github-corner:hover .octo-arm {
+    animation: octocat-wave 560ms ease-in-out
+}
+@keyframes octocat-wave {
+    0%, 100% {
+        transform: rotate(0)
+    }
+    20%, 60% {
+        transform: rotate(-25deg)
+    }
+    40%, 80% {
+        transform: rotate(10deg)
+    }
+}
+@media (max-width: 500px) {
+    .github-corner:hover .octo-arm {
+        animation: none
+    }
+
+    .github-corner .octo-arm {
+        animation: octocat-wave 560ms ease-in-out
+    }
+}</style><div id="container">
+    <header>
+        <h1><a href="/">AlexRhino</a></h1>
+            <ul class="social-media">
+                    <li><a href="#"><i class="fa fa-You can add links in your config file fa-lg" aria-hidden="true"></i></a></li>
+                    <li><a href="#"><i class="fa fa-Another social link fa-lg" aria-hidden="true"></i></a></li>
+            </ul>
+        <p><em></em></p>
+    </header>
+    <nav>
+        <ul>
+                    <li><a href="/category/devops.html"> devops </a></li>
+                    <li><a                         class="active" href="/category/post.html"> post </a></li>
+                    <li><a href="/pages/My favorite line.html">About Me</a>
+                    </li>
+        </ul>
+    </nav>
+<main>
+    <article>
+        <h2>Docker-py and Docker For Mac</h2>
+        
+        <aside>
+            <ul>
+                <li>
+                    <time datetime="2016-11-01 17:00:20+00:00">Nov 01, 2016</time>
+                </li>
+                <li>
+                    <time datetime="2016-11-01 17:00:20+00:00">Modified
+                        on Nov 01, 2016</time>
+                </li>
+                <li>18 min read</li>
+                <li>
+                    Categories:
+                    <a href="/category/post.html"><em>post</em></a>
+                </li>
+                <li>
+                    Tags:
+                    <a href="/tag/devops.html"><em>#Devops</em></a>
+                </li>
+            </ul>
+        </aside>
+        <p>Build response from Docker for mac put multi status line in one chunk.</p>
+<pre><code>
+BEI-mzzha01-Mac:~ mzzhang$ /opt/salt/bin/python
+Python 2.7.12 (default, Aug 24 2016, 14:05:14)
+[GCC 4.2.1 Compatible Apple LLVM 7.3.0 (clang-703.0.31)] on darwin
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import docker
+>>> import docker.utils
+>>> cli = docker.Client()
+>>> cli.version
+<bound method Client.version of <docker.client.Client object at 0x1057ed290>>
+>>> cli.images()
+[{u'Created': 1467401967, u'Labels': {}, u'VirtualSize': 1848, u'ParentId': u'', u'RepoTags': [u'hello-world:latest'], u'RepoDigests': [u'hello-world@sha256:0256e8a36e2070f7bf2d0b0763dbabdd67798512411de4cdcf9431a1feb60fd9'], u'Id': u'sha256:c54a2cc56cbb2f04003c1cd4507e118af7c0d340fe7e2720f70976c4b75237dc', u'Size': 1848}]
+>>> response = cli.build(path='/Users/mzzhang/powerdns_docker', tag='powerdns/powerdns:0.0.1')
+>>> for i in response:
+...     print 'i:' + i
+...
+i:{"stream":"Step 1 : FROM ubuntu:latest\n"}
+
+i:{"status":"Pulling from library/ubuntu","id":"latest"}
+{"status":"Pulling fs layer","progressDetail":{},"id":"6bbedd9b76a4"}
+{"status":"Pulling fs layer","progressDetail":{},"id":"fc19d60a83f1"}
+{"status":"Pulling fs layer","progressDetail":{},"id":"de413bb911fd"}
+{"status":"Pulling fs layer","progressDetail":{},"id":"2879a7ad3144"}
+{"status":"Pulling fs layer","progressDetail":{},"id":"668604fde02e"}
+{"status":"Waiting","progressDetail":{},"id":"668604fde02e"}
+{"status":"Waiting","progressDetail":{},"id":"2879a7ad3144"}
+
+i:{"status":"Downloading","progressDetail":{"current":444,"total":444},"progress":"[==================================================\u003e]    444 B/444 B","id":"de413bb911fd"}
+
+i:{"status":"Verifying Checksum","progressDetail":{},"id":"de413bb911fd"}
+
+i:{"status":"Download complete","progressDetail":{},"id":"de413bb911fd"}
+
+i:{"status":"Downloading","progressDetail":{"current":824,"total":824},"progress":"[==================================================\u003e]    824 B/824 B","id":"fc19d60a83f1"}
+
+i:{"status":"Verifying Checksum","progressDetail":{},"id":"fc19d60a83f1"}
+
+i:{"status":"Download complete","progressDetail":{},"id":"fc19d60a83f1"}
+
+i:{"status":"Downloading","progressDetail":{"current":506963,"total":49866926},"progress":"[\u003e                                                  ]   507 kB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":1014867,"total":49866926},"progress":"[=\u003e                                                 ] 1.015 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":1522771,"total":49866926},"progress":"[=\u003e                                                 ] 1.523 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":678,"total":678},"progress":"[==================================================\u003e]    678 B/678 B","id":"2879a7ad3144"}
+
+i:{"status":"Verifying Checksum","progressDetail":{},"id":"2879a7ad3144"}
+
+i:{"status":"Download complete","progressDetail":{},"id":"2879a7ad3144"}
+
+i:{"status":"Downloading","progressDetail":{"current":2030675,"total":49866926},"progress":"[==\u003e                                                ] 2.031 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":160,"total":160},"progress":"[==================================================\u003e]    160 B/160 B","id":"668604fde02e"}
+{"status":"Download complete","progressDetail":{},"id":"668604fde02e"}
+
+i:{"status":"Downloading","progressDetail":{"current":2538579,"total":49866926},"progress":"[==\u003e                                                ] 2.539 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":3046483,"total":49866926},"progress":"[===\u003e                                               ] 3.046 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":3554387,"total":49866926},"progress":"[===\u003e                                               ] 3.554 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":4062291,"total":49866926},"progress":"[====\u003e                                              ] 4.062 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":4570195,"total":49866926},"progress":"[====\u003e                                              ]  4.57 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":5078099,"total":49866926},"progress":"[=====\u003e                                             ] 5.078 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":5586003,"total":49866926},"progress":"[=====\u003e                                             ] 5.586 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":6093907,"total":49866926},"progress":"[======\u003e                                            ] 6.094 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":6601811,"total":49866926},"progress":"[======\u003e                                            ] 6.602 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":7109715,"total":49866926},"progress":"[=======\u003e                                           ]  7.11 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":7617619,"total":49866926},"progress":"[=======\u003e                                           ] 7.618 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":8125523,"total":49866926},"progress":"[========\u003e                                          ] 8.126 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":8633427,"total":49866926},"progress":"[========\u003e                                          ] 8.633 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":9141331,"total":49866926},"progress":"[=========\u003e                                         ] 9.141 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":9649235,"total":49866926},"progress":"[=========\u003e                                         ] 9.649 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":10157139,"total":49866926},"progress":"[==========\u003e                                        ] 10.16 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":10665043,"total":49866926},"progress":"[==========\u003e                                        ] 10.67 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":11172947,"total":49866926},"progress":"[===========\u003e                                       ] 11.17 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":11680851,"total":49866926},"progress":"[===========\u003e                                       ] 11.68 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":12188755,"total":49866926},"progress":"[============\u003e                                      ] 12.19 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":12696659,"total":49866926},"progress":"[============\u003e                                      ]  12.7 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":13204563,"total":49866926},"progress":"[=============\u003e                                     ]  13.2 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":13712467,"total":49866926},"progress":"[=============\u003e                                     ] 13.71 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":14220371,"total":49866926},"progress":"[==============\u003e                                    ] 14.22 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":14728275,"total":49866926},"progress":"[==============\u003e                                    ] 14.73 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":15236179,"total":49866926},"progress":"[===============\u003e                                   ] 15.24 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":15744083,"total":49866926},"progress":"[===============\u003e                                   ] 15.74 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":16251987,"total":49866926},"progress":"[================\u003e                                  ] 16.25 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":16759891,"total":49866926},"progress":"[================\u003e                                  ] 16.76 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":17267795,"total":49866926},"progress":"[=================\u003e                                 ] 17.27 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":17775699,"total":49866926},"progress":"[=================\u003e                                 ] 17.78 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":18283603,"total":49866926},"progress":"[==================\u003e                                ] 18.28 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":18791507,"total":49866926},"progress":"[==================\u003e                                ] 18.79 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":19299411,"total":49866926},"progress":"[===================\u003e                               ]  19.3 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":19807315,"total":49866926},"progress":"[===================\u003e                               ] 19.81 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":20315219,"total":49866926},"progress":"[====================\u003e                              ] 20.32 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":20823123,"total":49866926},"progress":"[====================\u003e                              ] 20.82 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":21331027,"total":49866926},"progress":"[=====================\u003e                             ] 21.33 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":21838931,"total":49866926},"progress":"[=====================\u003e                             ] 21.84 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":22346835,"total":49866926},"progress":"[======================\u003e                            ] 22.35 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":22854739,"total":49866926},"progress":"[======================\u003e                            ] 22.85 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":23362643,"total":49866926},"progress":"[=======================\u003e                           ] 23.36 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":23870547,"total":49866926},"progress":"[=======================\u003e                           ] 23.87 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":24378451,"total":49866926},"progress":"[========================\u003e                          ] 24.38 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":24886355,"total":49866926},"progress":"[========================\u003e                          ] 24.89 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":25394259,"total":49866926},"progress":"[=========================\u003e                         ] 25.39 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":25902163,"total":49866926},"progress":"[=========================\u003e                         ]  25.9 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":26410067,"total":49866926},"progress":"[==========================\u003e                        ] 26.41 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":26917971,"total":49866926},"progress":"[==========================\u003e                        ] 26.92 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":27425875,"total":49866926},"progress":"[===========================\u003e                       ] 27.43 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":27933779,"total":49866926},"progress":"[============================\u003e                      ] 27.93 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":28441683,"total":49866926},"progress":"[============================\u003e                      ] 28.44 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":28949587,"total":49866926},"progress":"[=============================\u003e                     ] 28.95 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":29457491,"total":49866926},"progress":"[=============================\u003e                     ] 29.46 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":29965395,"total":49866926},"progress":"[==============================\u003e                    ] 29.97 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":30473299,"total":49866926},"progress":"[==============================\u003e                    ] 30.47 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":30981203,"total":49866926},"progress":"[===============================\u003e                   ] 30.98 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":31489107,"total":49866926},"progress":"[===============================\u003e                   ] 31.49 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":31997011,"total":49866926},"progress":"[================================\u003e                  ]    32 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":32504915,"total":49866926},"progress":"[================================\u003e                  ]  32.5 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":33012819,"total":49866926},"progress":"[=================================\u003e                 ] 33.01 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":33520723,"total":49866926},"progress":"[=================================\u003e                 ] 33.52 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":34028627,"total":49866926},"progress":"[==================================\u003e                ] 34.03 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":34536531,"total":49866926},"progress":"[==================================\u003e                ] 34.54 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":35044435,"total":49866926},"progress":"[===================================\u003e               ] 35.04 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":35552339,"total":49866926},"progress":"[===================================\u003e               ] 35.55 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":36060243,"total":49866926},"progress":"[====================================\u003e              ] 36.06 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":36568147,"total":49866926},"progress":"[====================================\u003e              ] 36.57 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":37076051,"total":49866926},"progress":"[=====================================\u003e             ] 37.08 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":37583955,"total":49866926},"progress":"[=====================================\u003e             ] 37.58 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":38091859,"total":49866926},"progress":"[======================================\u003e            ] 38.09 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":38599763,"total":49866926},"progress":"[======================================\u003e            ]  38.6 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":39107667,"total":49866926},"progress":"[=======================================\u003e           ] 39.11 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":39615571,"total":49866926},"progress":"[=======================================\u003e           ] 39.62 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":40123475,"total":49866926},"progress":"[========================================\u003e          ] 40.12 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":40631379,"total":49866926},"progress":"[========================================\u003e          ] 40.63 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":41139283,"total":49866926},"progress":"[=========================================\u003e         ] 41.14 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":41647187,"total":49866926},"progress":"[=========================================\u003e         ] 41.65 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":42155091,"total":49866926},"progress":"[==========================================\u003e        ] 42.16 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":42662995,"total":49866926},"progress":"[==========================================\u003e        ] 42.66 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":43170899,"total":49866926},"progress":"[===========================================\u003e       ] 43.17 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":43678803,"total":49866926},"progress":"[===========================================\u003e       ] 43.68 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":44186707,"total":49866926},"progress":"[============================================\u003e      ] 44.19 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":44694611,"total":49866926},"progress":"[============================================\u003e      ] 44.69 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":45202515,"total":49866926},"progress":"[=============================================\u003e     ]  45.2 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":45710419,"total":49866926},"progress":"[=============================================\u003e     ] 45.71 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":46218323,"total":49866926},"progress":"[==============================================\u003e    ] 46.22 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":46726227,"total":49866926},"progress":"[==============================================\u003e    ] 46.73 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":47234131,"total":49866926},"progress":"[===============================================\u003e   ] 47.23 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":47742035,"total":49866926},"progress":"[===============================================\u003e   ] 47.74 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":48249939,"total":49866926},"progress":"[================================================\u003e  ] 48.25 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":48757843,"total":49866926},"progress":"[================================================\u003e  ] 48.76 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":49265747,"total":49866926},"progress":"[=================================================\u003e ] 49.27 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Downloading","progressDetail":{"current":49773651,"total":49866926},"progress":"[=================================================\u003e ] 49.77 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Verifying Checksum","progressDetail":{},"id":"6bbedd9b76a4"}
+
+i:{"status":"Download complete","progressDetail":{},"id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":524288,"total":49866926},"progress":"[\u003e                                                  ] 524.3 kB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":1048576,"total":49866926},"progress":"[=\u003e                                                 ] 1.049 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":1572864,"total":49866926},"progress":"[=\u003e                                                 ] 1.573 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":2097152,"total":49866926},"progress":"[==\u003e                                                ] 2.097 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":2621440,"total":49866926},"progress":"[==\u003e                                                ] 2.621 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":3145728,"total":49866926},"progress":"[===\u003e                                               ] 3.146 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":3670016,"total":49866926},"progress":"[===\u003e                                               ]  3.67 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":4194304,"total":49866926},"progress":"[====\u003e                                              ] 4.194 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":4718592,"total":49866926},"progress":"[====\u003e                                              ] 4.719 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":5242880,"total":49866926},"progress":"[=====\u003e                                             ] 5.243 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":5767168,"total":49866926},"progress":"[=====\u003e                                             ] 5.767 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":6291456,"total":49866926},"progress":"[======\u003e                                            ] 6.291 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":6815744,"total":49866926},"progress":"[======\u003e                                            ] 6.816 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":7340032,"total":49866926},"progress":"[=======\u003e                                           ]  7.34 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":7864320,"total":49866926},"progress":"[=======\u003e                                           ] 7.864 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":8388608,"total":49866926},"progress":"[========\u003e                                          ] 8.389 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":8912896,"total":49866926},"progress":"[========\u003e                                          ] 8.913 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":9437184,"total":49866926},"progress":"[=========\u003e                                         ] 9.437 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":9961472,"total":49866926},"progress":"[=========\u003e                                         ] 9.961 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":10485760,"total":49866926},"progress":"[==========\u003e                                        ] 10.49 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":11010048,"total":49866926},"progress":"[===========\u003e                                       ] 11.01 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":11534336,"total":49866926},"progress":"[===========\u003e                                       ] 11.53 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":12058624,"total":49866926},"progress":"[============\u003e                                      ] 12.06 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":12582912,"total":49866926},"progress":"[============\u003e                                      ] 12.58 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":13107200,"total":49866926},"progress":"[=============\u003e                                     ] 13.11 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":13631488,"total":49866926},"progress":"[=============\u003e                                     ] 13.63 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":14155776,"total":49866926},"progress":"[==============\u003e                                    ] 14.16 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":14680064,"total":49866926},"progress":"[==============\u003e                                    ] 14.68 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":15204352,"total":49866926},"progress":"[===============\u003e                                   ]  15.2 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":15728640,"total":49866926},"progress":"[===============\u003e                                   ] 15.73 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":16252928,"total":49866926},"progress":"[================\u003e                                  ] 16.25 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":16777216,"total":49866926},"progress":"[================\u003e                                  ] 16.78 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":17301504,"total":49866926},"progress":"[=================\u003e                                 ]  17.3 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":17825792,"total":49866926},"progress":"[=================\u003e                                 ] 17.83 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":18350080,"total":49866926},"progress":"[==================\u003e                                ] 18.35 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":18874368,"total":49866926},"progress":"[==================\u003e                                ] 18.87 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":19398656,"total":49866926},"progress":"[===================\u003e                               ]  19.4 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":19922944,"total":49866926},"progress":"[===================\u003e                               ] 19.92 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":20447232,"total":49866926},"progress":"[====================\u003e                              ] 20.45 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":20971520,"total":49866926},"progress":"[=====================\u003e                             ] 20.97 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":21495808,"total":49866926},"progress":"[=====================\u003e                             ]  21.5 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":22020096,"total":49866926},"progress":"[======================\u003e                            ] 22.02 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":22544384,"total":49866926},"progress":"[======================\u003e                            ] 22.54 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":23068672,"total":49866926},"progress":"[=======================\u003e                           ] 23.07 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":23592960,"total":49866926},"progress":"[=======================\u003e                           ] 23.59 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":24117248,"total":49866926},"progress":"[========================\u003e                          ] 24.12 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":24641536,"total":49866926},"progress":"[========================\u003e                          ] 24.64 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":25165824,"total":49866926},"progress":"[=========================\u003e                         ] 25.17 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":25690112,"total":49866926},"progress":"[=========================\u003e                         ] 25.69 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":26214400,"total":49866926},"progress":"[==========================\u003e                        ] 26.21 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":26738688,"total":49866926},"progress":"[==========================\u003e                        ] 26.74 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":27262976,"total":49866926},"progress":"[===========================\u003e                       ] 27.26 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":27787264,"total":49866926},"progress":"[===========================\u003e                       ] 27.79 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":28311552,"total":49866926},"progress":"[============================\u003e                      ] 28.31 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":28835840,"total":49866926},"progress":"[============================\u003e                      ] 28.84 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":29360128,"total":49866926},"progress":"[=============================\u003e                     ] 29.36 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":29884416,"total":49866926},"progress":"[=============================\u003e                     ] 29.88 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":30408704,"total":49866926},"progress":"[==============================\u003e                    ] 30.41 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":30932992,"total":49866926},"progress":"[===============================\u003e                   ] 30.93 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":31457280,"total":49866926},"progress":"[===============================\u003e                   ] 31.46 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":31981568,"total":49866926},"progress":"[================================\u003e                  ] 31.98 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":32505856,"total":49866926},"progress":"[================================\u003e                  ] 32.51 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":33030144,"total":49866926},"progress":"[=================================\u003e                 ] 33.03 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":33554432,"total":49866926},"progress":"[=================================\u003e                 ] 33.55 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":34078720,"total":49866926},"progress":"[==================================\u003e                ] 34.08 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":34603008,"total":49866926},"progress":"[==================================\u003e                ]  34.6 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":35127296,"total":49866926},"progress":"[===================================\u003e               ] 35.13 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":35651584,"total":49866926},"progress":"[===================================\u003e               ] 35.65 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":36175872,"total":49866926},"progress":"[====================================\u003e              ] 36.18 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":36700160,"total":49866926},"progress":"[====================================\u003e              ]  36.7 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":37224448,"total":49866926},"progress":"[=====================================\u003e             ] 37.22 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":37748736,"total":49866926},"progress":"[=====================================\u003e             ] 37.75 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":38273024,"total":49866926},"progress":"[======================================\u003e            ] 38.27 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":38797312,"total":49866926},"progress":"[======================================\u003e            ]  38.8 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":39321600,"total":49866926},"progress":"[=======================================\u003e           ] 39.32 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":39845888,"total":49866926},"progress":"[=======================================\u003e           ] 39.85 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":40370176,"total":49866926},"progress":"[========================================\u003e          ] 40.37 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":40894464,"total":49866926},"progress":"[=========================================\u003e         ] 40.89 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":41418752,"total":49866926},"progress":"[=========================================\u003e         ] 41.42 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":41943040,"total":49866926},"progress":"[==========================================\u003e        ] 41.94 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":42467328,"total":49866926},"progress":"[==========================================\u003e        ] 42.47 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":42991616,"total":49866926},"progress":"[===========================================\u003e       ] 42.99 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":43515904,"total":49866926},"progress":"[===========================================\u003e       ] 43.52 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":44040192,"total":49866926},"progress":"[============================================\u003e      ] 44.04 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":44564480,"total":49866926},"progress":"[============================================\u003e      ] 44.56 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":45088768,"total":49866926},"progress":"[=============================================\u003e     ] 45.09 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":45613056,"total":49866926},"progress":"[=============================================\u003e     ] 45.61 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":46137344,"total":49866926},"progress":"[==============================================\u003e    ] 46.14 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":46661632,"total":49866926},"progress":"[==============================================\u003e    ] 46.66 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":47185920,"total":49866926},"progress":"[===============================================\u003e   ] 47.19 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":47710208,"total":49866926},"progress":"[===============================================\u003e   ] 47.71 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":48234496,"total":49866926},"progress":"[================================================\u003e  ] 48.23 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":48758784,"total":49866926},"progress":"[================================================\u003e  ] 48.76 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":49283072,"total":49866926},"progress":"[=================================================\u003e ] 49.28 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":49807360,"total":49866926},"progress":"[=================================================\u003e ] 49.81 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":49866926,"total":49866926},"progress":"[==================================================\u003e] 49.87 MB/49.87 MB","id":"6bbedd9b76a4"}
+
+i:{"status":"Pull complete","progressDetail":{},"id":"6bbedd9b76a4"}
+
+i:{"status":"Extracting","progressDetail":{"current":824,"total":824},"progress":"[==================================================\u003e]    824 B/824 B","id":"fc19d60a83f1"}
+
+i:{"status":"Extracting","progressDetail":{"current":824,"total":824},"progress":"[==================================================\u003e]    824 B/824 B","id":"fc19d60a83f1"}
+
+i:{"status":"Pull complete","progressDetail":{},"id":"fc19d60a83f1"}
+
+i:{"status":"Extracting","progressDetail":{"current":444,"total":444},"progress":"[==================================================\u003e]    444 B/444 B","id":"de413bb911fd"}
+
+i:{"status":"Extracting","progressDetail":{"current":444,"total":444},"progress":"[==================================================\u003e]    444 B/444 B","id":"de413bb911fd"}
+
+i:{"status":"Pull complete","progressDetail":{},"id":"de413bb911fd"}
+
+i:{"status":"Extracting","progressDetail":{"current":678,"total":678},"progress":"[==================================================\u003e]    678 B/678 B","id":"2879a7ad3144"}
+
+i:{"status":"Extracting","progressDetail":{"current":678,"total":678},"progress":"[==================================================\u003e]    678 B/678 B","id":"2879a7ad3144"}
+
+i:{"status":"Pull complete","progressDetail":{},"id":"2879a7ad3144"}
+
+i:{"status":"Extracting","progressDetail":{"current":160,"total":160},"progress":"[==================================================\u003e]    160 B/160 B","id":"668604fde02e"}
+
+i:{"status":"Extracting","progressDetail":{"current":160,"total":160},"progress":"[==================================================\u003e]    160 B/160 B","id":"668604fde02e"}
+
+i:{"status":"Pull complete","progressDetail":{},"id":"668604fde02e"}
+
+i:{"status":"Digest: sha256:2d44ae143feeb36f4c898d32ed2ab2dffeb3a573d2d8928646dfc9cb7deb1315"}
+
+i:{"status":"Status: Downloaded newer image for ubuntu:latest"}
+
+i:{"stream":" ---\u003e f753707788c5\n"}
+
+i:{"stream":"Step 2 : ADD test.sh /usr/local/bin/test.sh\n"}
+
+i:{"stream":" ---\u003e 59485d2a769e\n"}
+
+i:{"stream":"Successfully built 59485d2a769e\n"}
+>>> exit()
+
+</code></pre>
+    </article>
+    <section class="post-nav">
+        <div id="left-page">
+            <div id="left-link">
+                <div id="left-arrow"><i class="fa fa-chevron-circle-left"></i></div>
+                <a href="/About-devops.html"> About devops</a>
+            </div>
+        </div>
+        <div id="right-page">
+            <div id="right-link">
+                <a href="/Docker-py-and-Docker-on-Mac.html">Docker-py and Docker on Mac </a>
+                <div id="right-arrow"><i class="fa fa-chevron-circle-right"></i></div>
+            </div>
+        </div>
+    </section>
+    <div>
+    </div>
+</main>
+    <footer>
+        <h6>
+            Copyright &copy 2018
+- Alex Rhino | Rendered by <a href="http://getpelican.com/">Pelican</a> |
+            Powered by <a href="http://python.org">Python</a>
+        </h6>
+    </footer>
+</div>
+</body>
+</html>
