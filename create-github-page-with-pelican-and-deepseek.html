@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+.prose {
+    line-height: 1.75;
+    font-size: 1rem;
+    color: #374151;
+}
+
+.prose h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.prose h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.prose ul {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.prose code {
+    background-color: #f3f4f6;
+    padding: 0.2em 0.4em;
+    border-radius: 0.25rem;
+    font-family: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+}
+</style>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alex's Blog</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+    <nav class="bg-white shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <a href="/" class="text-xl font-bold text-blue-600">Alex's Blog</a>
+                <div class="space-x-6">
+                    <a href="/archives" class="text-gray-600 hover:text-blue-600">Articles</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto px-4 py-8">
+<article class="max-w-3xl mx-auto px-4 py-8">
+    <header class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-900 mb-4">Create github page with pelican and deepseek</h1>
+        <div class="flex items-center gap-4 text-sm text-gray-500">
+            <time datetime="2025-04-23T00:00:00+01:00">Wed 23 April 2025</time>
+            <div class="flex flex-wrap gap-2">
+                <span class="px-2 py-1 bg-gray-100 text-gray-600 rounded-full">
+                    #Github Pages
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <div class="prose prose-blue max-w-none">
+        <h3>Introduction</h3>
+<p>In this post, I'll share the process to generate github pages with pelican and deepseek.</p>
+<h3>Steps</h3>
+<ol>
+<li>Generate pelican demo site with quickstart</li>
+<li>Ask deepseek for modernization with Tailwind CSS</li>
+<li>Hide confidential information for privacy protection</li>
+</ol>
+<h3>Todo</h3>
+<p>Add ssl
+Fix tags page</p>
+    </div>
+
+    <div class="mt-12 pt-8 border-t border-gray-100">
+        <a href="/archives" class="inline-flex items-center text-blue-600 hover:text-blue-800">
+            ← Back to All Articles
+        </a>
+    </div>
+</article>
+    </main>
+
+    <footer class="bg-white border-t mt-12">
+        <div class="max-w-6xl mx-auto px-4 py-8 text-center text-gray-600">
+            <p>&copy; 2025 Alex Zhang. All rights reserved. Generated with Deepseek.</p>
+            <div class="mt-2 space-x-4">
+                <a href="https://github.com/SmilentRhino" class="hover:text-blue-600">GitHub</a>
+                <a href="https://www.linkedin.com/in/mingzhe-zhang-56119b100/" class="hover:text-blue-600">LinkedIn</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

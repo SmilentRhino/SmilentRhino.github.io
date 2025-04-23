@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Alex's Blog - SRE</title><link href="http://www.alexrhino.net/" rel="alternate"></link><link href="http://www.alexrhino.net/feeds/sre.atom.xml" rel="self"></link><id>http://www.alexrhino.net/</id><updated>2025-04-23T00:00:00+01:00</updated><entry><title>Create github page with pelican and deepseek</title><link href="http://www.alexrhino.net/create-github-page-with-pelican-and-deepseek.html" rel="alternate"></link><published>2025-04-23T00:00:00+01:00</published><updated>2025-04-23T00:00:00+01:00</updated><author><name>alexzhang4work</name></author><id>tag:www.alexrhino.net,2025-04-23:/create-github-page-with-pelican-and-deepseek.html</id><content type="html">&lt;h3&gt;Introduction&lt;/h3&gt;
+&lt;p&gt;In this post, I'll share the process to generate github pages with pelican and deepseek.&lt;/p&gt;
+&lt;h3&gt;Steps&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;Generate pelican demo site with quickstart&lt;/li&gt;
+&lt;li&gt;Ask deepseek for modernization with Tailwind CSS&lt;/li&gt;
+&lt;li&gt;Hide confidential information for privacy protection&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;Todo&lt;/h3&gt;
+&lt;p&gt;Add ssl
+Fix tags page&lt;/p&gt;</content><category term="SRE"></category><category term="Github Pages"></category></entry></feed>

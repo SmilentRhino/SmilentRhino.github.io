@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /private/
+Disallow: /admin/
+Sitemap: http://www.alexrhino.net/sitemap.xml
